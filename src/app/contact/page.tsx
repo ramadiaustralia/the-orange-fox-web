@@ -5,13 +5,13 @@ import { useLanguage } from '@/lib/LanguageContext';
 
 export default function ContactPage() {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', package: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const subject = encodeURIComponent(formData.subject);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPackage: ${formData.package || 'Not specified'}\n\n${formData.message}`);
     window.location.href = `mailto:theorgfox@outlook.com?subject=${subject}&body=${body}`;
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
@@ -71,6 +71,22 @@ export default function ContactPage() {
                   className="w-full px-4 py-3 rounded-xl border border-border bg-off-white text-text-primary text-sm outline-none transition-all duration-300 focus:border-orange focus:shadow-[0_0_0_3px_rgba(212,105,42,0.1)]"
                   style={{ fontFamily: 'var(--font-body)' }}
                 />
+              </div>
+              <div>
+                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_package')}</label>
+                <select
+                  value={formData.package}
+                  onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-off-white text-text-primary text-sm outline-none transition-all duration-300 focus:border-orange focus:shadow-[0_0_0_3px_rgba(212,105,42,0.1)] appearance-none"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  <option value="">{t('contact_package_placeholder')}</option>
+                  <option value="Premium Web Package">Premium Web Package — $2,500</option>
+                  <option value="Exclusive Web Package">Exclusive Web Package — $4,800</option>
+                  <option value="Premium App Package">Premium App Package — $3,500</option>
+                  <option value="Exclusive App Package">Exclusive App Package — $6,800</option>
+                  <option value="Ultimate Complete Package">Ultimate Complete Package — $8,800</option>
+                </select>
               </div>
               <div>
                 <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_message')}</label>
