@@ -216,32 +216,6 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* FAQ / Why Section */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-[800px] mx-auto">
-          <ScrollReveal>
-            <div className="text-center mb-12">
-              <h2 className="text-[clamp(1.4rem,3vw,2rem)] font-bold text-text-primary mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('pricing_faq_title')}</h2>
-              <p className="text-text-secondary text-[0.9rem] max-w-xl mx-auto">{t('pricing_faq_desc')}</p>
-            </div>
-          </ScrollReveal>
-
-          <div className="space-y-6">
-            {(['pricing_faq1_q', 'pricing_faq2_q', 'pricing_faq3_q', 'pricing_faq4_q'] as const).map((qKey, i) => {
-              const aKey = qKey.replace('_q', '_a') as typeof qKey extends `${infer P}_q` ? `${P}_a` : never;
-              return (
-                <ScrollReveal key={i} delay={i * 0.1}>
-                  <div className="bg-light-bg rounded-2xl p-6 border border-border-light">
-                    <h4 className="font-semibold text-text-primary text-[0.95rem] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t(qKey)}</h4>
-                    <p className="text-text-secondary text-[0.85rem] leading-relaxed">{t(aKey as any)}</p>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="bg-light-bg py-20 px-6 text-center border-t border-border-light">
         <ScrollReveal>

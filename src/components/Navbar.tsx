@@ -31,12 +31,13 @@ export default function Navbar() {
 
   const mainLinks = [
     { href: '/', label: t('nav_home') },
-    { href: '/services', label: t('nav_services') },
   ];
 
   const dropdownLinks = [
-    { href: '/process', label: t('nav_process') },
+    { href: '/services', label: t('nav_what_we_deliver') },
+    { href: '/process', label: t('nav_how_we_work') },
     { href: '/pricing', label: t('nav_pricing') },
+    { href: '/faq', label: t('nav_faq') },
   ];
 
   const afterDropdownLinks = [
@@ -44,13 +45,14 @@ export default function Navbar() {
     { href: '/contact', label: t('nav_contact') },
   ];
 
-  const isDropdownActive = pathname === '/process' || pathname === '/pricing';
+  const isDropdownActive = pathname === '/services' || pathname === '/process' || pathname === '/pricing' || pathname === '/faq';
 
   const allMobileLinks = [
     { href: '/', label: t('nav_home') },
-    { href: '/services', label: t('nav_services') },
-    { href: '/process', label: t('nav_process') },
+    { href: '/services', label: t('nav_what_we_deliver') },
+    { href: '/process', label: t('nav_how_we_work') },
     { href: '/pricing', label: t('nav_pricing') },
+    { href: '/faq', label: t('nav_faq') },
     { href: '/about', label: t('nav_about') },
     { href: '/contact', label: t('nav_contact') },
   ];
@@ -83,7 +85,7 @@ export default function Navbar() {
             </li>
           ))}
 
-          {/* Dropdown - Solutions */}
+          {/* Dropdown - Framework */}
           <li className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -92,13 +94,13 @@ export default function Navbar() {
               `}
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              {t('nav_solutions')}
+              {t('nav_framework')}
               <svg className={`w-3 h-3 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
               <span className={`absolute -bottom-1 left-0 h-[1.5px] bg-orange transition-all duration-300 ${isDropdownActive ? 'w-full' : 'w-0'}`} />
             </button>
 
             {dropdownOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white rounded-xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.08)] py-2 min-w-[180px] overflow-hidden">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white rounded-xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.08)] py-2 min-w-[200px] overflow-hidden">
                 <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45" />
                 {dropdownLinks.map((link) => (
                   <Link

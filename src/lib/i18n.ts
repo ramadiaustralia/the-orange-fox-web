@@ -9,6 +9,10 @@ export const translations = {
     nav_process: 'Process',
     nav_about: 'About',
     nav_contact: 'Contact',
+    nav_framework: 'Framework',
+    nav_what_we_deliver: 'What We Deliver',
+    nav_how_we_work: 'How We Work',
+    nav_faq: 'FAQ',
     
     // Hero
     hero_badge: 'Web · App · Digital System',
@@ -169,6 +173,74 @@ export const translations = {
     // Footer
     footer_tagline: 'Independent. Intelligent. Built to Last.',
     footer_rights: '© 2026 The Orange Fox. All rights reserved.',
+    footer_nav: 'Navigate',
+
+    // FAQ Page
+    faq_label: 'FAQ',
+    faq_title: 'Frequently Asked Questions',
+    faq_desc: 'Everything you need to know about working with The Orange Fox. Can\'t find what you\'re looking for? Get in touch.',
+
+    // FAQ Categories
+    faq_cat_general: 'General',
+    faq_cat_services: 'Services & Technology',
+    faq_cat_process: 'Process & Timeline',
+    faq_cat_pricing: 'Pricing & Payment',
+    faq_cat_support: 'Technical & Support',
+
+    // FAQ - General
+    faq_general_1_q: 'What is The Orange Fox?',
+    faq_general_1_a: 'The Orange Fox is an independent web, app, and digital system architect. We operate as a one-person studio with agency-grade standards — every project is personally architected, developed, and delivered from scratch.',
+    faq_general_2_q: 'Why do you build everything from scratch?',
+    faq_general_2_a: 'No templates, no page builders, no shortcuts. Every line of code is written exclusively for you, ensuring a unique, optimized, and fully tailored solution that performs exactly the way your business needs it to.',
+    faq_general_3_q: 'Who is behind The Orange Fox?',
+    faq_general_3_a: 'A single architect who handles everything end-to-end: from concept and design to development, deployment, and ongoing support. This ensures consistency, quality, and direct communication at every stage.',
+    faq_general_4_q: 'What industries do you work with?',
+    faq_general_4_a: 'We work across all industries — F&B, retail, corporate, creative, tech, and more. Our approach is business-first, not industry-locked. If you have a business, we can build the digital system for it.',
+
+    // FAQ - Services
+    faq_services_1_q: 'What technologies do you use?',
+    faq_services_1_a: 'Our core stack includes Next.js, React, Tailwind CSS, TypeScript, Supabase, and Vercel. This modern stack is chosen for its performance, scalability, and exceptional developer experience.',
+    faq_services_2_q: 'Do you build mobile apps?',
+    faq_services_2_a: 'Yes. We build native-feel cross-platform applications using React Native and Expo — a single codebase that runs on both iOS and Android with excellent performance.',
+    faq_services_3_q: 'What is the Admin Dashboard & CMS?',
+    faq_services_3_a: 'A fully custom content management system built entirely from scratch. You can edit, add, delete, and reorganize all your website content through a premium, intuitive interface — no WordPress, no generic CMS.',
+    faq_services_4_q: 'Do you provide SEO optimization?',
+    faq_services_4_a: 'Yes. Built-in SEO optimization is part of every project — meta tags, structured data, sitemap, performance optimization, and more. We also integrate analytics so you can track everything from your dashboard.',
+    faq_services_5_q: 'Can you integrate with third-party services?',
+    faq_services_5_a: 'Absolutely. Payment gateways, CRMs, email marketing platforms, social media APIs, shipping services — we can integrate with virtually any third-party service your business requires.',
+
+    // FAQ - Process
+    faq_process_1_q: 'What is Phase 0 and why is it free?',
+    faq_process_1_a: 'Phase 0 is our concept and architecture phase. We deliver a complete system blueprint — including tech stack, architecture diagram, and project timeline — all at zero cost. It\'s our way of proving our capability before you invest a single dollar.',
+    faq_process_2_q: 'How long does a typical project take?',
+    faq_process_2_a: 'Premium packages typically take 3–4 weeks. Exclusive packages take 6–8 weeks. The Ultimate Complete Package takes 8–12 weeks. Exact timelines are confirmed during Phase 0 based on your specific requirements.',
+    faq_process_3_q: 'How many revision rounds do I get?',
+    faq_process_3_a: 'Premium packages include 1 revision round. Exclusive and Ultimate packages include 3 revision rounds. Additional revisions beyond the included rounds are available at agreed rates.',
+    faq_process_4_q: 'Will I be involved in the development process?',
+    faq_process_4_a: 'Absolutely. Each phase includes review and feedback sessions. You see real progress at every stage, provide input, and approve before we move forward. No surprises at the end.',
+
+    // FAQ - Pricing
+    faq_pricing_1_q: 'Can I customize a package?',
+    faq_pricing_1_a: 'Yes. Every package serves as a starting point. We can adjust scope, features, and timeline to match your exact business needs. Just reach out and we\'ll craft a tailored proposal during Phase 0.',
+    faq_pricing_2_q: 'What payment methods do you accept?',
+    faq_pricing_2_a: 'We accept bank transfers (domestic and international), PayPal, and Wise. Payment is structured in milestones — you only pay after seeing real, functional deliverables at each stage.',
+    faq_pricing_3_q: 'Are there any hidden fees?',
+    faq_pricing_3_a: 'Never. Every cost is documented upfront during Phase 0. What we quote is what you pay. Full transparency is one of our core principles — no surprises, no hidden charges.',
+    faq_pricing_4_q: 'Do you offer ongoing maintenance plans?',
+    faq_pricing_4_a: 'Post-launch support is included with every package (30 or 90 days depending on your plan). Long-term maintenance, feature additions, and redesigns are available under separate agreements.',
+
+    // FAQ - Support
+    faq_support_1_q: 'Will I own the source code?',
+    faq_support_1_a: 'Yes, 100%. After project completion, all source code, design assets, and documentation are fully transferred to you. You own everything we build.',
+    faq_support_2_q: 'Where will my website be hosted?',
+    faq_support_2_a: 'We deploy on Vercel — a premium hosting platform with global CDN, automatic SSL certificates, and seamless scaling. You can also choose your own hosting provider if preferred.',
+    faq_support_3_q: 'What happens after the project is handed over?',
+    faq_support_3_a: 'You get full independence. We provide comprehensive training and documentation so your team can manage everything. Future support, redesigns, or feature additions are always available whenever you need them.',
+
+    // FAQ CTA
+    faq_cta_title: 'Still Have Questions?',
+    faq_cta_desc: 'We\'re happy to answer any questions you have. Phase 0 consultation is always free — let\'s talk about your project.',
+    faq_cta_btn: 'Contact Us',
   },
   id: {
     nav_home: 'Beranda',
@@ -177,6 +249,10 @@ export const translations = {
     nav_process: 'Proses',
     nav_about: 'Tentang',
     nav_contact: 'Kontak',
+    nav_framework: 'Framework',
+    nav_what_we_deliver: 'Layanan Kami',
+    nav_how_we_work: 'Cara Kerja',
+    nav_faq: 'FAQ',
     
     hero_badge: 'Web · App · Digital System',
     hero_title: 'Built Smart. Built Sharp. Built to Last.',
@@ -331,6 +407,74 @@ export const translations = {
     // Footer
     footer_tagline: 'Independent. Intelligent. Built to Last.',
     footer_rights: '© 2026 The Orange Fox. Hak cipta dilindungi.',
+    footer_nav: 'Navigasi',
+
+    // FAQ Page
+    faq_label: 'FAQ',
+    faq_title: 'Pertanyaan yang Sering Diajukan',
+    faq_desc: 'Semua yang perlu Anda ketahui tentang bekerja sama dengan The Orange Fox. Tidak menemukan jawaban? Hubungi kami.',
+
+    // FAQ Categories
+    faq_cat_general: 'Umum',
+    faq_cat_services: 'Layanan & Teknologi',
+    faq_cat_process: 'Proses & Timeline',
+    faq_cat_pricing: 'Harga & Pembayaran',
+    faq_cat_support: 'Teknikal & Dukungan',
+
+    // FAQ - General
+    faq_general_1_q: 'Apa itu The Orange Fox?',
+    faq_general_1_a: 'The Orange Fox adalah arsitek web, app, dan sistem digital independen. Kami beroperasi sebagai studio satu orang dengan standar setara agency profesional — setiap proyek dirancang, dikembangkan, dan diserahkan secara personal dari nol.',
+    faq_general_2_q: 'Mengapa semuanya dibangun dari nol?',
+    faq_general_2_a: 'Tanpa template, tanpa page builder, tanpa jalan pintas. Setiap baris kode ditulis khusus untuk Anda, memastikan solusi yang unik, optimal, dan sepenuhnya disesuaikan dengan kebutuhan bisnis Anda.',
+    faq_general_3_q: 'Siapa di balik The Orange Fox?',
+    faq_general_3_a: 'Seorang arsitek tunggal yang menangani semuanya dari awal hingga akhir: dari konsep dan desain hingga pengembangan, deployment, dan dukungan berkelanjutan. Ini memastikan konsistensi, kualitas, dan komunikasi langsung di setiap tahap.',
+    faq_general_4_q: 'Industri apa saja yang dilayani?',
+    faq_general_4_a: 'Kami melayani semua industri — F&B, ritel, korporat, kreatif, teknologi, dan lainnya. Pendekatan kami mengutamakan bisnis, tidak terbatas pada industri tertentu. Jika Anda memiliki bisnis, kami bisa membangun sistem digitalnya.',
+
+    // FAQ - Services
+    faq_services_1_q: 'Teknologi apa yang digunakan?',
+    faq_services_1_a: 'Stack utama kami meliputi Next.js, React, Tailwind CSS, TypeScript, Supabase, dan Vercel. Stack modern ini dipilih untuk performa, skalabilitas, dan pengalaman pengembangan yang luar biasa.',
+    faq_services_2_q: 'Apakah Anda membuat aplikasi mobile?',
+    faq_services_2_a: 'Ya. Kami membangun aplikasi cross-platform dengan nuansa native menggunakan React Native dan Expo — satu codebase yang berjalan di iOS dan Android dengan performa excellent.',
+    faq_services_3_q: 'Apa itu Admin Dashboard & CMS?',
+    faq_services_3_a: 'Sistem manajemen konten yang sepenuhnya custom dan dibangun dari nol. Anda dapat mengedit, menambah, menghapus, dan mereorganisasi seluruh konten website melalui antarmuka premium dan intuitif — tanpa WordPress, tanpa CMS generik.',
+    faq_services_4_q: 'Apakah tersedia optimasi SEO?',
+    faq_services_4_a: 'Ya. Optimasi SEO built-in adalah bagian dari setiap proyek — meta tags, structured data, sitemap, optimasi performa, dan lainnya. Kami juga mengintegrasikan analytics sehingga Anda bisa melacak semuanya dari dashboard.',
+    faq_services_5_q: 'Bisakah diintegrasikan dengan layanan pihak ketiga?',
+    faq_services_5_a: 'Tentu saja. Payment gateway, CRM, platform email marketing, API media sosial, layanan pengiriman — kami dapat mengintegrasikan dengan hampir semua layanan pihak ketiga yang dibutuhkan bisnis Anda.',
+
+    // FAQ - Process
+    faq_process_1_q: 'Apa itu Phase 0 dan mengapa gratis?',
+    faq_process_1_a: 'Phase 0 adalah fase konsep dan arsitektur kami. Kami memberikan blueprint sistem lengkap — termasuk tech stack, diagram arsitektur, dan timeline proyek — semuanya tanpa biaya. Ini cara kami membuktikan kemampuan sebelum Anda menginvestasikan satu rupiah pun.',
+    faq_process_2_q: 'Berapa lama waktu pengerjaan proyek?',
+    faq_process_2_a: 'Paket Premium biasanya 3–4 minggu. Paket Exclusive 6–8 minggu. Paket Ultimate Complete 8–12 minggu. Timeline pasti dikonfirmasi saat Phase 0 berdasarkan kebutuhan spesifik Anda.',
+    faq_process_3_q: 'Berapa kali putaran revisi yang didapat?',
+    faq_process_3_a: 'Paket Premium termasuk 1 putaran revisi. Paket Exclusive dan Ultimate termasuk 3 putaran revisi. Revisi tambahan di luar kuota tersedia dengan tarif yang disepakati.',
+    faq_process_4_q: 'Apakah saya akan terlibat dalam proses pengembangan?',
+    faq_process_4_a: 'Tentu saja. Setiap fase mencakup sesi review dan feedback. Anda melihat progress nyata di setiap tahap, memberikan masukan, dan menyetujui sebelum kami melanjutkan. Tidak ada kejutan di akhir.',
+
+    // FAQ - Pricing
+    faq_pricing_1_q: 'Bisakah paket dikustomisasi?',
+    faq_pricing_1_a: 'Ya. Setiap paket berfungsi sebagai titik awal. Kami dapat menyesuaikan cakupan, fitur, dan timeline sesuai kebutuhan bisnis Anda. Hubungi kami dan kami akan menyusun proposal yang disesuaikan saat Phase 0.',
+    faq_pricing_2_q: 'Metode pembayaran apa yang diterima?',
+    faq_pricing_2_a: 'Kami menerima transfer bank (domestik dan internasional), PayPal, dan Wise. Pembayaran terstruktur dalam milestones — Anda hanya membayar setelah melihat hasil kerja yang nyata dan fungsional di setiap tahap.',
+    faq_pricing_3_q: 'Apakah ada biaya tersembunyi?',
+    faq_pricing_3_a: 'Tidak pernah. Setiap biaya terdokumentasi di awal saat Phase 0. Yang kami quotasikan adalah yang Anda bayar. Transparansi penuh adalah salah satu prinsip utama kami — tanpa kejutan, tanpa biaya tersembunyi.',
+    faq_pricing_4_q: 'Apakah tersedia paket maintenance berkelanjutan?',
+    faq_pricing_4_a: 'Dukungan pasca-peluncuran sudah termasuk di setiap paket (30 atau 90 hari tergantung paket Anda). Maintenance jangka panjang, penambahan fitur, dan redesign tersedia dengan kesepakatan terpisah.',
+
+    // FAQ - Support
+    faq_support_1_q: 'Apakah saya memiliki source code-nya?',
+    faq_support_1_a: 'Ya, 100%. Setelah proyek selesai, seluruh source code, aset desain, dan dokumentasi sepenuhnya diserahkan kepada Anda. Anda memiliki semua yang kami bangun.',
+    faq_support_2_q: 'Di mana website saya akan di-hosting?',
+    faq_support_2_a: 'Kami deploy di Vercel — platform hosting premium dengan CDN global, sertifikat SSL otomatis, dan scaling seamless. Anda juga bisa memilih provider hosting sendiri jika diinginkan.',
+    faq_support_3_q: 'Apa yang terjadi setelah proyek diserahkan?',
+    faq_support_3_a: 'Anda mendapat kemandirian penuh. Kami memberikan pelatihan komprehensif dan dokumentasi agar tim Anda bisa mengelola semuanya. Dukungan, redesign, atau penambahan fitur selalu tersedia kapanpun Anda membutuhkan.',
+
+    // FAQ CTA
+    faq_cta_title: 'Masih Ada Pertanyaan?',
+    faq_cta_desc: 'Kami senang menjawab pertanyaan Anda. Konsultasi Phase 0 selalu gratis — mari bicara tentang proyek Anda.',
+    faq_cta_btn: 'Hubungi Kami',
   }
 } as const;
 
