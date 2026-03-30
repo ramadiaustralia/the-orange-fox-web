@@ -1,105 +1,70 @@
-'use client';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { useLanguage } from '@/lib/LanguageContext';
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useLanguage } from "@/lib/LanguageContext";
+import { translations } from "@/lib/i18n";
+
+const navLinks = [
+  { key: "home", href: "/" },
+  { key: "services", href: "/services" },
+  { key: "process", href: "/process" },
+  { key: "about", href: "/about" },
+  { key: "contact", href: "/contact" },
+] as const;
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
-  const { locale, setLocale, t } = useLanguage();
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const links = [
-    { href: '/', label: t('nav_home') },
-    { href: '/services', label: t('nav_services') },
-    { href: '/portfolio', label: t('nav_portfolio') },
-    { href: '/process', label: t('nav_process') },
-    { href: '/about', label: t('nav_about') },
-    { href: '/contact', label: t('nav_contact') },
-  ];
+  const { language, setLanguage } = useLanguage();
+  const t = translations[language].nav;
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[1000] bg-white border-b border-gray-100 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_12px_rgba(0,0,0,0.06)]' : ''}`}>
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 h-[60px] flex items-center justify-between">
-        {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 no-underline">
-          <Image src="/images/logo-fox.png" alt="The Orange Fox" width={32} height={32} className="h-8 w-auto" />
-          <span className="font-heading font-bold text-[0.7rem] tracking-[2px] text-orange" style={{ fontFamily: 'var(--font-heading)' }}>
-            THE ORANGE FOX
-          </span>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 group">
+          <Image src="/images/logo-fox.png" alt="The Orange Fox" width={36} height={36} className="transition-transform group-hover:scale-110" />
+          <span className="text-white font-semibold tracking-tight text-sm hidden sm:block">The Orange Fox</span>
         </Link>
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex gap-7 list-none">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`text-[0.75rem] font-medium tracking-[1.5px] uppercase no-underline transition-colors duration-300 relative
-                  ${pathname === link.href ? 'text-orange' : 'text-text-primary hover:text-orange'}
-                `}
-                style={{ fontFamily: 'var(--font-heading)' }}
-              >
-                {link.label}
-                <span className={`absolute -bottom-1 left-0 h-[1.5px] bg-orange transition-all duration-300 ${pathname === link.href ? 'w-full' : 'w-0'}`} />
-              </Link>
-            </li>
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <Link key={link.key} href={link.href}
+              className="px-4 py-2 text-[13px] tracking-wide text-white/60 hover:text-white transition-colors relative group">
+              {t[link.key as keyof typeof t]}
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-[#ea7810] transition-all group-hover:w-3/4" />
+            </Link>
           ))}
-        </ul>
-
-        {/* Language Switcher */}
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setLocale('en')}
-            className={`w-7 h-7 rounded-full border flex items-center justify-center text-xs transition-all duration-300 cursor-pointer
-              ${locale === 'en' ? 'bg-orange/20 border-orange shadow-[0_0_6px_rgba(212,105,42,0.3)]' : 'bg-gray-50 border-gray-200 hover:bg-orange/10 hover:border-orange/50'}
-            `}
-          >
-            🇬🇧
-          </button>
-          <button
-            onClick={() => setLocale('id')}
-            className={`w-7 h-7 rounded-full border flex items-center justify-center text-xs transition-all duration-300 cursor-pointer
-              ${locale === 'id' ? 'bg-orange/20 border-orange shadow-[0_0_6px_rgba(212,105,42,0.3)]' : 'bg-gray-50 border-gray-200 hover:bg-orange/10 hover:border-orange/50'}
-            `}
-          >
-            🇮🇩
-          </button>
         </div>
 
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1 p-2 cursor-pointer bg-transparent border-none"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <span className={`w-5 h-0.5 bg-text-primary transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-          <span className={`w-5 h-0.5 bg-text-primary transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
-          <span className={`w-5 h-0.5 bg-text-primary transition-all duration-300 ${mobileOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="flex bg-white/[0.04] rounded-full p-0.5 border border-white/[0.06]">
+            <button onClick={() => setLanguage("en")}
+              className={`px-2.5 py-1 text-xs rounded-full transition-all ${language === "en" ? "bg-[#ea7810] text-white shadow-lg shadow-orange-500/20" : "text-white/40 hover:text-white/70"}`}>
+              EN
+            </button>
+            <button onClick={() => setLanguage("id")}
+              className={`px-2.5 py-1 text-xs rounded-full transition-all ${language === "id" ? "bg-[#ea7810] text-white shadow-lg shadow-orange-500/20" : "text-white/40 hover:text-white/70"}`}>
+              ID
+            </button>
+          </div>
+
+          {/* Mobile toggle */}
+          <button onClick={() => setOpen(!open)} className="md:hidden text-white/60 hover:text-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {open ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M4 8h16M4 16h16" />}
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className={`block py-3 text-sm font-medium tracking-wider uppercase no-underline
-                ${pathname === link.href ? 'text-orange' : 'text-text-primary'}
-              `}
-              style={{ fontFamily: 'var(--font-heading)' }}
-            >
-              {link.label}
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-white/[0.06] px-6 py-4 space-y-1">
+          {navLinks.map((link) => (
+            <Link key={link.key} href={link.href} onClick={() => setOpen(false)}
+              className="block py-2.5 text-sm text-white/60 hover:text-white transition-colors">
+              {t[link.key as keyof typeof t]}
             </Link>
           ))}
         </div>

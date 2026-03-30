@@ -1,27 +1,26 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/lib/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { LanguageProvider } from "@/lib/LanguageContext";
+import AnimatedBackground from "@/components/AnimatedBackground";
+
+const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
-  title: "The Orange Fox | Premium Web Development Studio",
-  description: "Crafting premium digital experiences. Custom web development, design, and digital solutions.",
-  icons: { icon: "/images/logo-fox.png" },
+  title: "The Orange Fox — Web Architecture & Development",
+  description: "Premium web development studio crafting exceptional digital experiences.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-      </head>
-      <body className="bg-white">
+      <body className={`${inter.className} bg-[#0a0a0a] text-white antialiased`}>
         <LanguageProvider>
+          <AnimatedBackground />
           <Navbar />
-          <main className="pt-[60px]">{children}</main>
+          <main className="relative z-10">{children}</main>
           <Footer />
         </LanguageProvider>
       </body>
