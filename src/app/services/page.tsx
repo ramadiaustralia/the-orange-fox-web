@@ -1,56 +1,80 @@
-"use client";
-import { useLanguage } from "@/lib/LanguageContext";
-import { translations } from "@/lib/i18n";
-import Link from "next/link";
-import ScrollReveal from "@/components/ScrollReveal";
-import { IconGlobe, IconDashboard, IconServer, IconTrending, IconBook, IconShield } from "@/components/Icons";
+'use client';
+import Link from 'next/link';
+import ScrollReveal from '@/components/ScrollReveal';
+import { IconGlobe, IconBolt, IconLock, IconTrending, IconBook, IconShield } from '@/components/Icons';
+import { useLanguage } from '@/lib/LanguageContext';
 
-const serviceIcons = [IconGlobe, IconDashboard, IconServer, IconTrending, IconBook, IconShield];
+const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
+  globe: IconGlobe, bolt: IconBolt, lock: IconLock,
+  trending: IconTrending, book: IconBook, shield: IconShield,
+};
 
-export default function Services() {
-  const { language } = useLanguage();
-  const t = translations[language];
+export default function ServicesPage() {
+  const { t } = useLanguage();
+
+  const services = [
+    { num: '01', icon: 'globe', titleKey: 'svc_web_title' as const, descKey: 'svc_web_desc' as const, features: ['Responsive Design', 'Next.js & React', 'Performance Optimized', 'SEO Ready'] },
+    { num: '02', icon: 'bolt', titleKey: 'svc_admin_title' as const, descKey: 'svc_admin_desc' as const, features: ['Custom Dashboard', 'Role Management', 'Real-time Analytics', 'Content Editor'] },
+    { num: '03', icon: 'lock', titleKey: 'svc_domain_title' as const, descKey: 'svc_domain_desc' as const, features: ['Domain Registration', 'SSL Certificate', 'Cloud Hosting', 'CDN Setup'] },
+    { num: '04', icon: 'trending', titleKey: 'svc_seo_title' as const, descKey: 'svc_seo_desc' as const, features: ['On-page SEO', 'Google Analytics', 'Payment Gateway', 'API Integration'] },
+    { num: '05', icon: 'book', titleKey: 'svc_training_title' as const, descKey: 'svc_training_desc' as const, features: ['Video Tutorials', 'User Manual', 'Live Training', 'Q&A Support'] },
+    { num: '06', icon: 'shield', titleKey: 'svc_support_title' as const, descKey: 'svc_support_desc' as const, features: ['24/7 Monitoring', 'Security Patches', 'Bug Fixes', 'Feature Updates'] },
+  ];
 
   return (
-    <section className="relative min-h-screen pt-32 pb-24 px-6">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#ea7810]/[0.02] rounded-full blur-[100px]" />
-      <div className="relative max-w-5xl mx-auto">
-        <ScrollReveal>
-          <p className="text-[11px] font-semibold tracking-[0.3em] text-[#ea7810]/60 uppercase mb-3">{t.services.label}</p>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">{t.services.title}</h1>
-          <p className="text-white/30 text-lg max-w-xl mb-16 font-light">{t.services.description}</p>
-        </ScrollReveal>
-
-        <div className="space-y-3">
-          {t.services.items.map((item, i) => {
-            const Icon = serviceIcons[i];
-            return (
-              <ScrollReveal key={i} delay={i * 0.06}>
-                <div className="group flex items-start gap-6 p-6 rounded-2xl bg-white/[0.015] border border-white/[0.04] hover:border-[#ea7810]/15 hover:bg-white/[0.03] transition-all duration-500">
-                  <div className="shrink-0 w-12 h-12 rounded-xl bg-[#ea7810]/10 flex items-center justify-center group-hover:bg-[#ea7810]/20 transition-colors">
-                    <Icon className="w-6 h-6 text-[#ea7810]" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold mb-1">{item.title}</h3>
-                    <p className="text-white/30 text-sm leading-relaxed font-light">{item.desc}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            );
-          })}
-        </div>
-
-        <ScrollReveal delay={0.4}>
-          <div className="mt-16 p-10 rounded-3xl bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.06] text-center">
-            <h2 className="text-2xl font-bold mb-3 tracking-tight">{t.cta.title}</h2>
-            <p className="text-white/30 mb-6 font-light">{t.cta.description}</p>
-            <Link href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#ea7810] to-[#d96a08] text-white text-sm font-medium rounded-full hover:shadow-lg hover:shadow-orange-500/25 transition-all hover:-translate-y-0.5">
-              {t.cta.button} →
-            </Link>
+    <>
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-24 md:py-32 text-center overflow-hidden">
+        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.1) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite' }} />
+        <div className="relative z-10 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+            <span className="text-[0.65rem] uppercase tracking-[3px] text-white/60" style={{ fontFamily: 'var(--font-heading)' }}>{t('services_label')}</span>
           </div>
+          <h1 className="text-white text-[clamp(2rem,5vw,3rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('services_title')}</h1>
+          <p className="text-white/40 text-[0.9rem] max-w-md mx-auto leading-relaxed">{t('services_desc')}</p>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="py-20 px-6 bg-white border-t-4 border-transparent" style={{ borderImage: 'linear-gradient(90deg,transparent,#d4692a,transparent) 1' }}>
+        <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+          {services.map((svc, i) => (
+            <ScrollReveal key={i} delay={i * 0.1}>
+              <div className="bg-white border border-border-light rounded-2xl p-7 transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_60px_rgba(212,105,42,0.08)] hover:border-orange/30 h-full">
+                <span className="text-orange/30 text-2xl font-bold mb-3 block" style={{ fontFamily: 'var(--font-heading)' }}>{svc.num}</span>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-orange/10 flex items-center justify-center text-lg">{(() => { const IC = iconMap[svc.icon]; return IC ? <IC className="w-6 h-6 text-orange" /> : null; })()}</div>
+                  <h3 className="text-lg font-semibold text-text-primary" style={{ fontFamily: 'var(--font-heading)' }}>{t(svc.titleKey)}</h3>
+                </div>
+                <p className="text-[0.82rem] text-text-secondary leading-relaxed mb-4">{t(svc.descKey)}</p>
+                <ul className="grid grid-cols-2 gap-2">
+                  {svc.features.map((f, j) => (
+                    <li key={j} className="text-[0.78rem] text-text-secondary pl-4 relative leading-relaxed before:content-['◆'] before:absolute before:left-0 before:text-orange before:text-[0.45rem] before:top-1">
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-light-bg py-20 px-6 text-center">
+        <ScrollReveal>
+          <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-bold text-text-primary mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('portfolio_cta')}</h2>
         </ScrollReveal>
-      </div>
-    </section>
+        <ScrollReveal delay={0.12}>
+          <p className="text-text-secondary text-[0.9rem] max-w-lg mx-auto mb-8 leading-relaxed">{t('portfolio_cta_desc')}</p>
+        </ScrollReveal>
+        <ScrollReveal delay={0.24}>
+          <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3 bg-orange text-white rounded-lg font-semibold text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]" style={{ fontFamily: 'var(--font-heading)' }}>
+            {t('portfolio_cta_btn')} →
+          </Link>
+        </ScrollReveal>
+      </section>
+    </>
   );
 }
