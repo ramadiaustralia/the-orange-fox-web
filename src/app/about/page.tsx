@@ -27,11 +27,10 @@ export default function AboutPage() {
 
   const values = [
     { icon: 'diamond', titleKey: 'value_quality' as const, descKey: 'value_quality_desc' as const },
-    { icon: '🔍', titleKey: 'value_transparency' as const, descKey: 'value_transparency_desc' as const },
+    { icon: 'target', titleKey: 'value_transparency' as const, descKey: 'value_transparency_desc' as const },
     { icon: 'handshake', titleKey: 'value_partnership' as const, descKey: 'value_partnership_desc' as const },
-    { icon: '🚀', titleKey: 'value_innovation' as const, descKey: 'value_innovation_desc' as const },
+    { icon: 'lightning', titleKey: 'value_innovation' as const, descKey: 'value_innovation_desc' as const },
   ];
-
 
   return (
     <>

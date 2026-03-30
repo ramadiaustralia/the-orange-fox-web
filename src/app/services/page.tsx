@@ -13,12 +13,12 @@ export default function ServicesPage() {
   const { t } = useLanguage();
 
   const services = [
-    { num: '01', icon: 'globe', titleKey: 'svc_web_title' as const, descKey: 'svc_web_desc' as const, features: ['Responsive Design', 'Next.js & React', 'Performance Optimized', 'SEO Ready'] },
-    { num: '02', icon: 'bolt', titleKey: 'svc_admin_title' as const, descKey: 'svc_admin_desc' as const, features: ['Custom Dashboard', 'Role Management', 'Real-time Analytics', 'Content Editor'] },
-    { num: '03', icon: 'lock', titleKey: 'svc_domain_title' as const, descKey: 'svc_domain_desc' as const, features: ['Domain Registration', 'SSL Certificate', 'Cloud Hosting', 'CDN Setup'] },
-    { num: '04', icon: 'trending', titleKey: 'svc_seo_title' as const, descKey: 'svc_seo_desc' as const, features: ['On-page SEO', 'Google Analytics', 'Payment Gateway', 'API Integration'] },
-    { num: '05', icon: 'book', titleKey: 'svc_training_title' as const, descKey: 'svc_training_desc' as const, features: ['Video Tutorials', 'User Manual', 'Live Training', 'Q&A Support'] },
-    { num: '06', icon: 'shield', titleKey: 'svc_support_title' as const, descKey: 'svc_support_desc' as const, features: ['24/7 Monitoring', 'Security Patches', 'Bug Fixes', 'Feature Updates'] },
+    { num: '01', icon: 'globe', titleKey: 'svc_web_title' as const, descKey: 'svc_web_desc' as const, features: ['Next.js & React', 'Tailwind CSS & Supabase', '100% From Scratch', 'Responsive & Fast'] },
+    { num: '02', icon: 'bolt', titleKey: 'svc_admin_title' as const, descKey: 'svc_admin_desc' as const, features: ['Custom-Built Dashboard', 'Content Management', 'Intuitive UI/UX', 'No Technical Skills Needed'] },
+    { num: '03', icon: 'lock', titleKey: 'svc_domain_title' as const, descKey: 'svc_domain_desc' as const, features: ['Domain Registration', 'SSL Certificate', 'Vercel Cloud Hosting', 'CDN Configuration'] },
+    { num: '04', icon: 'trending', titleKey: 'svc_seo_title' as const, descKey: 'svc_seo_desc' as const, features: ['On-page SEO', 'Google Analytics', 'Traffic Dashboard', 'Engagement Metrics'] },
+    { num: '05', icon: 'book', titleKey: 'svc_training_title' as const, descKey: 'svc_training_desc' as const, features: ['Live Training', 'User Documentation', 'Workflow Guide', 'Q&A Support'] },
+    { num: '06', icon: 'shield', titleKey: 'svc_support_title' as const, descKey: 'svc_support_desc' as const, features: ['Security Patches', 'Bug Fixes', 'Feature Additions', 'Redesign Services'] },
   ];
 
   return (

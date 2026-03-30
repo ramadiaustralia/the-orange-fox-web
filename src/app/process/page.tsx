@@ -13,12 +13,12 @@ export default function ProcessPage() {
   const { t } = useLanguage();
 
   const phases = [
-    { num: '01', titleKey: 'phase1_title' as const, descKey: 'phase1_desc' as const, icon: 'search', features: ['Business Analysis', 'Requirement Gathering', 'Market Research', 'Technical Planning'] },
-    { num: '02', titleKey: 'phase2_title' as const, descKey: 'phase2_desc' as const, icon: 'palette', features: ['Wireframing', 'UI/UX Design', 'Prototyping', 'Design System'] },
-    { num: '03', titleKey: 'phase3_title' as const, descKey: 'phase3_desc' as const, icon: 'gear', features: ['Frontend Development', 'Backend APIs', 'Database Design', 'CMS Integration'] },
-    { num: '04', titleKey: 'phase4_title' as const, descKey: 'phase4_desc' as const, icon: 'link', features: ['API Integration', 'Payment Setup', 'Cross-browser Testing', 'Performance Testing'] },
-    { num: '05', titleKey: 'phase5_title' as const, descKey: 'phase5_desc' as const, icon: 'star', features: ['Client Review', 'Feedback Integration', 'Fine-tuning', 'Quality Assurance'] },
-    { num: '06', titleKey: 'phase6_title' as const, descKey: 'phase6_desc' as const, icon: 'rocket', features: ['Deployment', 'DNS Configuration', 'Monitoring Setup', 'Post-launch Support'] },
+    { num: '00', titleKey: 'phase1_title' as const, descKey: 'phase1_desc' as const, icon: 'search', badge: 'FREE', features: ['Concept Discussion', 'Company Data Collection', 'System Architecture', 'Initial Content Setup'] },
+    { num: '01', titleKey: 'phase2_title' as const, descKey: 'phase2_desc' as const, icon: 'palette', features: ['Functional Web Delivery', 'Flow & Layout Review', 'Concept Refinement', 'First Payment'] },
+    { num: '02', titleKey: 'phase3_title' as const, descKey: 'phase3_desc' as const, icon: 'gear', features: ['Custom Dashboard', 'Content Management', 'Premium UI/UX', 'Independent Control'] },
+    { num: '03', titleKey: 'phase4_title' as const, descKey: 'phase4_desc' as const, icon: 'link', features: ['PIC Collaboration', 'Workflow Testing', 'Notification Setup', 'System Integration'] },
+    { num: '04', titleKey: 'phase5_title' as const, descKey: 'phase5_desc' as const, icon: 'star', features: ['Stakeholder Review', 'Final Adjustments', 'Team Onboarding', 'Workflow Training'] },
+    { num: '05', titleKey: 'phase6_title' as const, descKey: 'phase6_desc' as const, icon: 'rocket', features: ['Asset Handover', 'Full Ownership', 'Future Maintenance', 'Partnership Options'] },
   ];
 
   return (
@@ -52,7 +52,12 @@ export default function ProcessPage() {
                 <div className="bg-white border border-border-light rounded-2xl p-6 md:p-7 transition-all duration-400 hover:-translate-y-1.5 hover:shadow-[0_20px_60px_rgba(212,105,42,0.08)]">
                   <div className="flex items-start justify-between mb-3 gap-4 flex-wrap">
                     <div>
-                      <span className="text-[0.6rem] uppercase tracking-[1.5px] text-orange font-semibold block mb-1" style={{ fontFamily: 'var(--font-heading)' }}>Phase {phase.num}</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[0.6rem] uppercase tracking-[1.5px] text-orange font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Phase {phase.num}</span>
+                        {phase.badge && (
+                          <span className="text-[0.55rem] uppercase tracking-[1px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">{phase.badge}</span>
+                        )}
+                      </div>
                       <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2" style={{ fontFamily: 'var(--font-heading)' }}>
                         {(() => { const IC = processIconMap[phase.icon]; return IC ? <IC className="w-5 h-5 text-orange" /> : null; })()} {t(phase.titleKey)}
                       </h3>
