@@ -1,18 +1,24 @@
 'use client';
 import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
+import { IconSearch, IconPalette, IconGear, IconLink, IconStar, IconRocket } from '@/components/Icons';
 import { useLanguage } from '@/lib/LanguageContext';
+
+const processIconMap: Record<string, React.ComponentType<{className?: string}>> = {
+  search: IconSearch, palette: IconPalette, gear: IconGear,
+  link: IconLink, star: IconStar, rocket: IconRocket,
+};
 
 export default function ProcessPage() {
   const { t } = useLanguage();
 
   const phases = [
-    { num: '01', titleKey: 'phase1_title' as const, descKey: 'phase1_desc' as const, icon: '🔍', features: ['Business Analysis', 'Requirement Gathering', 'Market Research', 'Technical Planning'] },
-    { num: '02', titleKey: 'phase2_title' as const, descKey: 'phase2_desc' as const, icon: '🎨', features: ['Wireframing', 'UI/UX Design', 'Prototyping', 'Design System'] },
-    { num: '03', titleKey: 'phase3_title' as const, descKey: 'phase3_desc' as const, icon: '⚙️', features: ['Frontend Development', 'Backend APIs', 'Database Design', 'CMS Integration'] },
-    { num: '04', titleKey: 'phase4_title' as const, descKey: 'phase4_desc' as const, icon: '🔗', features: ['API Integration', 'Payment Setup', 'Cross-browser Testing', 'Performance Testing'] },
-    { num: '05', titleKey: 'phase5_title' as const, descKey: 'phase5_desc' as const, icon: '✨', features: ['Client Review', 'Feedback Integration', 'Fine-tuning', 'Quality Assurance'] },
-    { num: '06', titleKey: 'phase6_title' as const, descKey: 'phase6_desc' as const, icon: '🚀', features: ['Deployment', 'DNS Configuration', 'Monitoring Setup', 'Post-launch Support'] },
+    { num: '01', titleKey: 'phase1_title' as const, descKey: 'phase1_desc' as const, icon: 'search', features: ['Business Analysis', 'Requirement Gathering', 'Market Research', 'Technical Planning'] },
+    { num: '02', titleKey: 'phase2_title' as const, descKey: 'phase2_desc' as const, icon: 'palette', features: ['Wireframing', 'UI/UX Design', 'Prototyping', 'Design System'] },
+    { num: '03', titleKey: 'phase3_title' as const, descKey: 'phase3_desc' as const, icon: 'gear', features: ['Frontend Development', 'Backend APIs', 'Database Design', 'CMS Integration'] },
+    { num: '04', titleKey: 'phase4_title' as const, descKey: 'phase4_desc' as const, icon: 'link', features: ['API Integration', 'Payment Setup', 'Cross-browser Testing', 'Performance Testing'] },
+    { num: '05', titleKey: 'phase5_title' as const, descKey: 'phase5_desc' as const, icon: 'star', features: ['Client Review', 'Feedback Integration', 'Fine-tuning', 'Quality Assurance'] },
+    { num: '06', titleKey: 'phase6_title' as const, descKey: 'phase6_desc' as const, icon: 'rocket', features: ['Deployment', 'DNS Configuration', 'Monitoring Setup', 'Post-launch Support'] },
   ];
 
   return (
@@ -48,7 +54,7 @@ export default function ProcessPage() {
                     <div>
                       <span className="text-[0.6rem] uppercase tracking-[1.5px] text-orange font-semibold block mb-1" style={{ fontFamily: 'var(--font-heading)' }}>Phase {phase.num}</span>
                       <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2" style={{ fontFamily: 'var(--font-heading)' }}>
-                        <span>{phase.icon}</span> {t(phase.titleKey)}
+                        {(() => { const IC = processIconMap[phase.icon]; return IC ? <IC className="w-5 h-5 text-orange" /> : null; })()} {t(phase.titleKey)}
                       </h3>
                     </div>
                   </div>

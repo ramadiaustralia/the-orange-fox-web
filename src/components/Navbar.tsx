@@ -20,7 +20,6 @@ export default function Navbar() {
   const links = [
     { href: '/', label: t('nav_home') },
     { href: '/services', label: t('nav_services') },
-    { href: '/portfolio', label: t('nav_portfolio') },
     { href: '/process', label: t('nav_process') },
     { href: '/about', label: t('nav_about') },
     { href: '/contact', label: t('nav_contact') },
