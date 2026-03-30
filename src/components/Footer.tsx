@@ -13,8 +13,8 @@ export default function Footer() {
         {t('footer_tagline')}
       </p>
       <div className="flex justify-center gap-6 mb-6">
-        {['/', '/services', '/portfolio', '/process', '/about', '/contact'].map((href, i) => {
-          const labels = ['Home', 'Services', 'Portfolio', 'Process', 'About', 'Contact'];
+        {['/', '/services', '/process', '/about', '/contact'].map((href, i) => {
+          const labels = ['Home', 'Services', 'Process', 'About', 'Contact'];
           return (
             <Link key={href} href={href} className="text-white/30 hover:text-orange text-xs uppercase tracking-wider no-underline transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>
               {labels[i]}
