@@ -129,11 +129,11 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
           <ScrollReveal delay={0.36}>
             <div className="text-center mt-12">
               <Link
-                href="/services"
+                href="/process"
                 className="inline-flex items-center gap-2 text-orange font-semibold text-sm tracking-wider uppercase no-underline hover:gap-3 transition-all"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
-                {t('nav_services')} →
+                {t('nav_how_we_work')} →
               </Link>
             </div>
           </ScrollReveal>
