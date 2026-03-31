@@ -82,10 +82,10 @@ export default function ContactPage() {
                 >
                   <option value="">{t('contact_package_placeholder')}</option>
                   <option value="Premium Web Package">Premium Web Package — $1,250</option>
-                  <option value="Exclusive Web Package">Exclusive Web Package — $2,400</option>
+                  <option value="Exclusive Web Package">Exclusive Web Package — $2,000</option>
                   <option value="Premium App Package">Premium App Package — $1,750</option>
-                  <option value="Exclusive App Package">Exclusive App Package — $3,400</option>
-                  <option value="Ultimate Complete Package">Ultimate Complete Package — $4,400</option>
+                  <option value="Exclusive App Package">Exclusive App Package — $3,000</option>
+                  <option value="Ultimate Complete Package">Ultimate Complete Package — $4,000</option>
                 </select>
               </div>
               <div>

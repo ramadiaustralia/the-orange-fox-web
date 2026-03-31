@@ -23,7 +23,7 @@ export default function PricingPage() {
       category: 'pricing_category_web' as const,
       nameKey: 'pkg_exclusive_web' as const,
       descKey: 'pkg_exclusive_web_desc' as const,
-      price: '$2,400',
+      price: '$2,000',
       featureKeys: [
         'pkg_exclusive_web_f1' as const, 'pkg_exclusive_web_f2' as const, 'pkg_exclusive_web_f3' as const,
         'pkg_exclusive_web_f4' as const, 'pkg_exclusive_web_f5' as const, 'pkg_exclusive_web_f6' as const,
@@ -47,7 +47,7 @@ export default function PricingPage() {
       category: 'pricing_category_app' as const,
       nameKey: 'pkg_exclusive_app' as const,
       descKey: 'pkg_exclusive_app_desc' as const,
-      price: '$3,400',
+      price: '$3,000',
       featureKeys: [
         'pkg_exclusive_app_f1' as const, 'pkg_exclusive_app_f2' as const, 'pkg_exclusive_app_f3' as const,
         'pkg_exclusive_app_f4' as const, 'pkg_exclusive_app_f5' as const, 'pkg_exclusive_app_f6' as const,
@@ -59,7 +59,7 @@ export default function PricingPage() {
       category: 'pricing_category_complete' as const,
       nameKey: 'pkg_ultimate' as const,
       descKey: 'pkg_ultimate_desc' as const,
-      price: '$4,400',
+      price: '$4,000',
       featureKeys: [
         'pkg_ultimate_f1' as const, 'pkg_ultimate_f2' as const, 'pkg_ultimate_f3' as const,
         'pkg_ultimate_f4' as const, 'pkg_ultimate_f5' as const, 'pkg_ultimate_f6' as const,
