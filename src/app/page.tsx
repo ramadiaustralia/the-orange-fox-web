@@ -25,62 +25,93 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-32 md:py-40 text-center overflow-hidden">
-        {/* Animated Orb */}
-        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.15) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite' }} />
+      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-20 md:py-24 text-center overflow-hidden">
+        {/* === Decorative Background Elements === */}
+        {/* Main animated orb */}
+        <div className="absolute w-[500px] h-[500px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.12) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite' }} />
+        {/* Secondary orb top-left */}
+        <div className="absolute w-[300px] h-[300px] rounded-full -top-20 -left-20 pointer-events-none opacity-40" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.08) 0%,transparent 70%)', animation: 'orbFloat 18s ease-in-out infinite reverse' }} />
+        {/* Tertiary orb bottom-right */}
+        <div className="absolute w-[250px] h-[250px] rounded-full -bottom-16 -right-16 pointer-events-none opacity-30" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.1) 0%,transparent 70%)', animation: 'orbFloat 22s ease-in-out infinite' }} />
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+        
+        {/* Floating particles */}
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="absolute w-1 h-1 rounded-full bg-orange/30 pointer-events-none" style={{
+            top: `${15 + i * 14}%`, left: `${10 + i * 15}%`,
+            animation: `twinkle ${2 + i * 0.7}s ease-in-out infinite ${i * 0.5}s, heroParticleFloat ${8 + i * 3}s ease-in-out infinite ${i * 1.2}s`
+          }} />
+        ))}
+        
+        {/* Diagonal accent lines */}
+        <div className="absolute top-0 right-[15%] w-px h-32 pointer-events-none opacity-10" style={{ background: 'linear-gradient(to bottom, transparent, rgba(212,105,42,0.5), transparent)', animation: 'heroLineSlide 6s ease-in-out infinite' }} />
+        <div className="absolute bottom-0 left-[20%] w-px h-24 pointer-events-none opacity-10" style={{ background: 'linear-gradient(to top, transparent, rgba(212,105,42,0.4), transparent)', animation: 'heroLineSlide 8s ease-in-out infinite 2s' }} />
+        
+        {/* Corner accents */}
+        <div className="absolute top-8 left-8 w-16 h-16 pointer-events-none opacity-10 border-l border-t border-orange/30" style={{ animation: 'heroCornerPulse 4s ease-in-out infinite' }} />
+        <div className="absolute bottom-8 right-8 w-16 h-16 pointer-events-none opacity-10 border-r border-b border-orange/30" style={{ animation: 'heroCornerPulse 4s ease-in-out infinite 2s' }} />
+        
+        {/* Horizontal glow line */}
+        <div className="absolute top-1/2 left-0 right-0 h-px pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(212,105,42,0.06) 30%, rgba(212,105,42,0.1) 50%, rgba(212,105,42,0.06) 70%, transparent 100%)' }} />
 
         <div className="relative z-10 max-w-2xl mx-auto">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-8">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6 backdrop-blur-sm" style={{ animation: 'heroFadeIn 1s ease-out' }}>
             <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
             <span className="text-[0.65rem] uppercase tracking-[3px] text-white/60" style={{ fontFamily: 'var(--font-heading)' }}>
               {t('hero_badge')}
             </span>
           </div>
 
-          {/* Logo */}
+          {/* Logo - slightly smaller */}
           <Image
             src="/images/logo-fox.png"
             alt="The Orange Fox"
             width={392}
             height={392}
-            className="mx-auto mb-4 w-full max-w-[300px] h-auto"
+            className="mx-auto mb-3 w-full max-w-[220px] md:max-w-[260px] h-auto"
             style={{ animation: 'heroFloat 4s ease-in-out infinite' }}
             priority
           />
 
-          {/* Divider */}
-          <div className="w-12 h-px mx-auto my-6 bg-gradient-to-r from-transparent via-orange to-transparent" />
+          {/* Animated divider */}
+          <div className="relative w-20 h-px mx-auto my-5">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange to-transparent" style={{ animation: 'heroDividerGlow 3s ease-in-out infinite' }} />
+          </div>
 
-          {/* Title & Description */}
-          <h1 className="text-white text-[clamp(2rem,5vw,3.2rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
+          {/* Title with stagger animation */}
+          <h1 className="text-white text-[clamp(1.8rem,4.5vw,2.8rem)] font-bold leading-tight mb-3" style={{ fontFamily: 'var(--font-heading)', animation: 'heroSlideUp 0.8s ease-out 0.2s both' }}>
             {t('hero_title')}
           </h1>
-          <p className="text-white/40 text-[0.9rem] max-w-md mx-auto mb-10 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+          <p className="text-white/40 text-[0.85rem] max-w-md mx-auto mb-8 leading-relaxed" style={{ fontFamily: 'var(--font-body)', animation: 'heroSlideUp 0.8s ease-out 0.4s both' }}>
             {t('hero_desc')}
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* CTAs with animation */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4" style={{ animation: 'heroSlideUp 0.8s ease-out 0.6s both' }}>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-orange text-white rounded-lg font-semibold text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]"
+              className="group relative inline-flex items-center gap-2 px-8 py-3 bg-orange text-white rounded-lg font-semibold text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_24px_rgba(212,105,42,0.4)] overflow-hidden"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              {t('hero_cta')} →
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative">{t('hero_cta')} →</span>
             </Link>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 text-white/70 rounded-lg font-medium text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:border-orange/50 hover:text-orange"
+              className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 text-white/70 rounded-lg font-medium text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:border-orange/50 hover:text-orange backdrop-blur-sm"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               {t('nav_services')}
             </Link>
           </div>
 
-          {/* Scroll Indicator */}
-          <div className="mt-16 flex flex-col items-center gap-2 text-white/20">
-            <div className="w-px h-8 bg-gradient-to-b from-white/20 to-transparent" />
+          {/* Scroll Indicator with enhanced animation */}
+          <div className="mt-10 flex flex-col items-center gap-2 text-white/20" style={{ animation: 'heroSlideUp 0.8s ease-out 0.8s both' }}>
+            <div className="w-px h-6 bg-gradient-to-b from-white/20 to-transparent" style={{ animation: 'heroScrollBounce 2s ease-in-out infinite' }} />
             <span className="text-[0.6rem] uppercase tracking-[3px]" style={{ fontFamily: 'var(--font-heading)' }}>Scroll</span>
           </div>
         </div>
