@@ -8,14 +8,24 @@ import { useLanguage } from '@/lib/LanguageContext';
 const techStack = [
   { name: 'Next.js', category: 'Frontend' },
   { name: 'React', category: 'Frontend' },
+  { name: 'React Native', category: 'Mobile' },
   { name: 'TypeScript', category: 'Language' },
   { name: 'Tailwind CSS', category: 'Styling' },
+  { name: 'Framer Motion', category: 'Animation' },
   { name: 'Node.js', category: 'Backend' },
+  { name: 'REST API', category: 'Backend' },
   { name: 'Supabase', category: 'Database' },
   { name: 'PostgreSQL', category: 'Database' },
+  { name: 'Prisma', category: 'ORM' },
   { name: 'Vercel', category: 'Deployment' },
-  { name: 'Figma', category: 'Design' },
+  { name: 'Docker', category: 'DevOps' },
+  { name: 'GitHub Actions', category: 'CI/CD' },
   { name: 'Git', category: 'DevOps' },
+  { name: 'Cloudflare', category: 'CDN & Security' },
+  { name: 'Google Analytics', category: 'Analytics' },
+  { name: 'SEO Optimization', category: 'Marketing' },
+  { name: 'Figma', category: 'Design' },
+  { name: 'Stripe', category: 'Payments' },
 ];
 
 const valueIconMap: Record<string, React.ComponentType<{className?: string}>> = {
