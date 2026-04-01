@@ -4,20 +4,27 @@ import Link from 'next/link';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { t, menuItems, locale } = useLanguage();
 
-  const frameworkLinks = [
-    { href: '/services', label: t('nav_what_we_deliver') },
-    { href: '/process', label: t('nav_how_we_work') },
-    { href: '/pricing', label: t('nav_pricing') },
-    { href: '/faq', label: t('nav_faq') },
-  ];
+  const footerFrameworkCMS = menuItems.filter(m => m.location === 'footer_framework' && m.locale === locale);
+  const footerMainCMS = menuItems.filter(m => m.location === 'footer_main' && m.locale === locale);
 
-  const mainLinks = [
-    { href: '/', label: t('nav_home') },
-    { href: '/about', label: t('nav_about') },
-    { href: '/contact', label: t('nav_contact') },
-  ];
+  const frameworkLinks = footerFrameworkCMS.length > 0
+    ? footerFrameworkCMS.map(m => ({ href: m.href, label: m.label }))
+    : [
+        { href: '/services', label: t('nav_what_we_deliver') },
+        { href: '/process', label: t('nav_how_we_work') },
+        { href: '/pricing', label: t('nav_pricing') },
+        { href: '/faq', label: t('nav_faq') },
+      ];
+
+  const mainLinks = footerMainCMS.length > 0
+    ? footerMainCMS.map(m => ({ href: m.href, label: m.label }))
+    : [
+        { href: '/', label: t('nav_home') },
+        { href: '/about', label: t('nav_about') },
+        { href: '/contact', label: t('nav_contact') },
+      ];
 
   return (
     <footer className="bg-dark py-16 px-6">

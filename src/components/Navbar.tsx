@@ -11,7 +11,7 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
-  const { locale, setLocale, t } = useLanguage();
+  const { locale, setLocale, t, menuItems } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -29,33 +29,42 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const mainLinks = [
-    { href: '/', label: t('nav_home') },
-  ];
+  // Get header menu items from CMS if available
+  const headerItems = menuItems.filter(m => m.location === 'header' && m.locale === locale);
 
-  const dropdownLinks = [
-    { href: '/services', label: t('nav_what_we_deliver') },
-    { href: '/process', label: t('nav_how_we_work') },
-    { href: '/pricing', label: t('nav_pricing') },
-    { href: '/faq', label: t('nav_faq') },
-  ];
+  const mainLinks = headerItems.length > 0
+    ? [{ href: headerItems.find(h => h.href === '/')?.href || '/', label: headerItems.find(h => h.href === '/')?.label || t('nav_home') }]
+    : [{ href: '/', label: t('nav_home') }];
 
-  const afterDropdownLinks = [
-    { href: '/about', label: t('nav_about') },
-    { href: '/contact', label: t('nav_contact') },
-  ];
+  const dropdownLinks = headerItems.length > 0
+    ? headerItems.filter(h => ['/services', '/process', '/pricing', '/faq'].includes(h.href)).map(h => ({ href: h.href, label: h.label }))
+    : [
+        { href: '/services', label: t('nav_what_we_deliver') },
+        { href: '/process', label: t('nav_how_we_work') },
+        { href: '/pricing', label: t('nav_pricing') },
+        { href: '/faq', label: t('nav_faq') },
+      ];
+
+  const afterDropdownLinks = headerItems.length > 0
+    ? headerItems.filter(h => ['/about', '/contact'].includes(h.href)).map(h => ({ href: h.href, label: h.label }))
+    : [
+        { href: '/about', label: t('nav_about') },
+        { href: '/contact', label: t('nav_contact') },
+      ];
 
   const isDropdownActive = pathname === '/services' || pathname === '/process' || pathname === '/pricing' || pathname === '/faq';
 
-  const allMobileLinks = [
-    { href: '/', label: t('nav_home') },
-    { href: '/services', label: t('nav_what_we_deliver') },
-    { href: '/process', label: t('nav_how_we_work') },
-    { href: '/pricing', label: t('nav_pricing') },
-    { href: '/faq', label: t('nav_faq') },
-    { href: '/about', label: t('nav_about') },
-    { href: '/contact', label: t('nav_contact') },
-  ];
+  const allMobileLinks = headerItems.length > 0
+    ? headerItems.map(h => ({ href: h.href, label: h.label }))
+    : [
+        { href: '/', label: t('nav_home') },
+        { href: '/services', label: t('nav_what_we_deliver') },
+        { href: '/process', label: t('nav_how_we_work') },
+        { href: '/pricing', label: t('nav_pricing') },
+        { href: '/faq', label: t('nav_faq') },
+        { href: '/about', label: t('nav_about') },
+        { href: '/contact', label: t('nav_contact') },
+      ];
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[1000] bg-white border-b border-gray-100 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_12px_rgba(0,0,0,0.06)]' : ''}`}>
