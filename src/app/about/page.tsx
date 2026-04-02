@@ -1,11 +1,13 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
 import { IconTarget, IconLightning, IconHandshake, IconDiamond } from '@/components/Icons';
 import { useLanguage } from '@/lib/LanguageContext';
+import { supabase } from '@/lib/supabase';
 
-const techStack = [
+const FALLBACK_TECH_STACK = [
   { name: 'Next.js', category: 'Frontend' },
   { name: 'React', category: 'Frontend' },
   { name: 'React Native', category: 'Mobile' },
@@ -34,6 +36,29 @@ const valueIconMap: Record<string, React.ComponentType<{className?: string}>> = 
 
 export default function AboutPage() {
   const { t } = useLanguage();
+  const [techStack, setTechStack] = useState(FALLBACK_TECH_STACK);
+
+  useEffect(() => {
+    async function loadTechStack() {
+      try {
+        const { data } = await supabase
+          .from('site_content')
+          .select('content_value')
+          .eq('content_key', 'tech_stack_data')
+          .eq('page', 'about')
+          .single();
+        if (data?.content_value) {
+          const parsed = JSON.parse(data.content_value);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setTechStack(parsed);
+          }
+        }
+      } catch (e) {
+        // Fallback to hardcoded
+      }
+    }
+    loadTechStack();
+  }, []);
 
   const values = [
     { icon: 'diamond', titleKey: 'value_quality' as const, descKey: 'value_quality_desc' as const },
