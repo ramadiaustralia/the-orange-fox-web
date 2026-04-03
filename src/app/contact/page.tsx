@@ -294,15 +294,38 @@ export default function ContactPage() {
   const { t, getSetting } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', package: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(formData.subject);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPackage: ${formData.package || 'Not specified'}\n\n${formData.message}`);
-    const contactEmail = getSetting('social_email', 'theorgfox@gmail.com');
-    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://the-orange-fox-api.vercel.app';
+      const res = await fetch(`${API_URL}/api/messages/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          package: formData.package || null,
+          message: formData.message,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed to send');
+      }
+      setSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', package: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err: any) {
+      setSubmitError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -382,13 +405,20 @@ export default function ContactPage() {
                   style={{ fontFamily: 'var(--font-body)' }}
                 />
               </div>
+              {submitError && (
+                <p className="text-red-500 text-sm">{submitError}</p>
+              )}
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-orange text-white rounded-xl font-semibold text-sm tracking-wider uppercase border-none cursor-pointer transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]"
+                disabled={submitting}
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-orange text-white rounded-xl font-semibold text-sm tracking-wider uppercase border-none cursor-pointer transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)] disabled:opacity-60 disabled:cursor-not-allowed"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
-                {submitted ? '✓ Sent!' : t('contact_send')} →
+                {submitting ? 'Sending...' : submitted ? '✓ Request Submitted!' : t('contact_send')} →
               </button>
+              {submitted && (
+                <p className="text-emerald-600 text-sm mt-2">Your project request has been submitted successfully! We will get back to you soon.</p>
+              )}
             </form>
           </ScrollReveal>
 
