@@ -291,7 +291,7 @@ function PackageSelector({
    Contact Page
    ══════════════════════════════════════════════════════════════════════ */
 export default function ContactPage() {
-  const { t } = useLanguage();
+  const { t, getSetting } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', package: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -299,7 +299,8 @@ export default function ContactPage() {
     e.preventDefault();
     const subject = encodeURIComponent(formData.subject);
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nPackage: ${formData.package || 'Not specified'}\n\n${formData.message}`);
-    window.location.href = `mailto:theorgfox@outlook.com?subject=${subject}&body=${body}`;
+    const contactEmail = getSetting('social_email', 'theorgfox@gmail.com');
+    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
   };
@@ -397,23 +398,29 @@ export default function ContactPage() {
               <p className="text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-4 text-center" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_or_reach')}</p>
               <div className="flex items-center justify-center gap-6 sm:gap-8 flex-wrap">
                 {/* Email */}
-                <a href="mailto:theorgfox@outlook.com" className="inline-flex items-center gap-2.5 text-sm text-text-primary no-underline hover:text-orange transition-colors group">
+                <a href={`mailto:${getSetting('social_email', 'theorgfox@gmail.com')}`} className="inline-flex items-center gap-2.5 text-sm text-text-primary no-underline hover:text-orange transition-colors group">
                   <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 transition-colors group-hover:bg-orange/20">
                     <svg className='w-4.5 h-4.5 text-orange' fill='none' stroke='currentColor' strokeWidth='1.5' viewBox='0 0 24 24'><path strokeLinecap='round' strokeLinejoin='round' d='M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.25L2.25 6.75'/></svg>
                   </span>
-                  <span style={{ fontFamily: 'var(--font-body)' }}>theorgfox@outlook.com</span>
+                  <span style={{ fontFamily: 'var(--font-body)' }}>{getSetting('social_email', 'theorgfox@gmail.com')}</span>
                 </a>
 
                 {/* Divider */}
                 <span className="hidden sm:block w-px h-6 bg-border" />
 
                 {/* Instagram */}
-                <a href="https://instagram.com/theorgfox" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 text-sm text-text-primary no-underline hover:text-orange transition-colors group">
-                  <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 transition-colors group-hover:bg-orange/20">
-                    <svg className='w-5 h-5 text-orange' viewBox='0 0 24 24' fill='currentColor'><path d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z'/></svg>
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-body)' }}>@theorgfox</span>
-                </a>
+                {(() => {
+                  const igUrl = getSetting('social_instagram', 'https://instagram.com/theorgfox');
+                  const igHandle = igUrl.includes('instagram.com/') ? '@' + igUrl.split('instagram.com/').pop()?.replace(/\/$/, '') : igUrl;
+                  return (
+                    <a href={igUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 text-sm text-text-primary no-underline hover:text-orange transition-colors group">
+                      <span className="w-9 h-9 rounded-lg bg-orange/10 flex items-center justify-center shrink-0 transition-colors group-hover:bg-orange/20">
+                        <svg className='w-5 h-5 text-orange' viewBox='0 0 24 24' fill='currentColor'><path d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z'/></svg>
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-body)' }}>{igHandle}</span>
+                    </a>
+                  );
+                })()}
               </div>
             </div>
           </ScrollReveal>

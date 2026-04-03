@@ -17,6 +17,7 @@ interface LanguageContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   t: (key: TranslationKey) => string;
+  getSetting: (key: string, fallback?: string) => string;
   cmsReady: boolean;
   menuItems: MenuItem[];
 }
@@ -25,6 +26,7 @@ const LanguageContext = createContext<LanguageContextType>({
   locale: 'en',
   setLocale: () => {},
   t: (key) => key,
+  getSetting: (key, fallback) => fallback || '',
   cmsReady: false,
   menuItems: [],
 });
@@ -100,8 +102,19 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     [locale]
   );
 
+  // getSetting: reads a CMS value (locale-aware, falls back to 'en', then fallback)
+  const getSetting = useCallback(
+    (key: string, fallback?: string) => {
+      const val =
+        cachedTranslations?.[locale]?.[key] ||
+        cachedTranslations?.['en']?.[key];
+      return val || fallback || '';
+    },
+    [locale]
+  );
+
   return (
-    <LanguageContext.Provider value={{ locale, setLocale, t: translate, cmsReady, menuItems }}>
+    <LanguageContext.Provider value={{ locale, setLocale, t: translate, getSetting, cmsReady, menuItems }}>
       {children}
     </LanguageContext.Provider>
   );
