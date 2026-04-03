@@ -21,10 +21,10 @@ export default function ContactPage() {
     <>
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-24 md:py-32 text-center overflow-hidden">
-        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.1) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite' }} />
+        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.1) 0%,transparent 70%)', animation: 'orbFloat 40s ease-in-out infinite' }} />
         <div className="relative z-10 max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 3.5s ease-in-out infinite' }} />
             <span className="text-[0.65rem] uppercase tracking-[3px] text-white/60" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_label')}</span>
           </div>
           <h1 className="text-white text-[clamp(2rem,5vw,3rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_title')}</h1>
@@ -110,7 +110,7 @@ export default function ContactPage() {
           </ScrollReveal>
 
           {/* Contact Info — Inline Row */}
-          <ScrollReveal delay={0.15}>
+          <ScrollReveal delay={0.35}>
             <div className="mt-10 pt-8 border-t border-border-light">
               <p className="text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-4 text-center" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_or_reach')}</p>
               <div className="flex items-center justify-center gap-6 sm:gap-8 flex-wrap">
@@ -150,7 +150,7 @@ export default function ContactPage() {
               { num: '2', text: t('contact_step2') },
               { num: '3', text: t('contact_step3') },
             ].map((step) => (
-              <ScrollReveal key={step.num} delay={Number(step.num) * 0.1}>
+              <ScrollReveal key={step.num} delay={Number(step.num) * 0.25}>
                 <div className="flex flex-col items-center gap-3">
                   <span className="w-9 h-9 rounded-full bg-orange/10 text-orange text-sm font-bold flex items-center justify-center" style={{ fontFamily: 'var(--font-heading)' }}>{step.num}</span>
                   <p className="text-sm text-text-muted leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>{step.text}</p>

@@ -23,8 +23,8 @@ export default function AnimatedBackground() {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
         r: Math.random() * 2 + 0.5,
         o: Math.random() * 0.15 + 0.03,
       });

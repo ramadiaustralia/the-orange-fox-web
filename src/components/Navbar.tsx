@@ -9,6 +9,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
   const { locale, setLocale, t, menuItems } = useLanguage();
@@ -178,7 +179,57 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4">
-          {allMobileLinks.map((link) => (
+          {/* Home */}
+          {mainLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              className={`block py-3 text-sm font-medium tracking-wider uppercase no-underline
+                ${pathname === link.href ? 'text-orange' : 'text-text-primary'}
+              `}
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          {/* Framework Dropdown */}
+          <div>
+            <button
+              onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+              className={`w-full flex items-center justify-between py-3 text-sm font-medium tracking-wider uppercase bg-transparent border-none cursor-pointer
+                ${isDropdownActive ? 'text-orange' : 'text-text-primary'}
+              `}
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              {t('nav_framework')}
+              <svg className={`w-4 h-4 transition-transform duration-300 ${mobileDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div
+              className="overflow-hidden transition-all duration-500 ease-in-out"
+              style={{ maxHeight: mobileDropdownOpen ? '300px' : '0px', opacity: mobileDropdownOpen ? 1 : 0 }}
+            >
+              <div className="pl-4 border-l-2 border-orange/20 ml-2">
+                {dropdownLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => { setMobileOpen(false); setMobileDropdownOpen(false); }}
+                    className={`block py-2.5 text-[0.8rem] font-medium tracking-wider uppercase no-underline
+                      ${pathname === link.href ? 'text-orange' : 'text-text-secondary'}
+                    `}
+                    style={{ fontFamily: 'var(--font-heading)' }}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* About & Contact */}
+          {afterDropdownLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

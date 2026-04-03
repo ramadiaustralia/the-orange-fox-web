@@ -69,20 +69,20 @@ export default function FaqPage() {
     <>
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-24 md:py-32 text-center overflow-hidden">
-        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.12) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite' }} />
-        <div className="absolute top-10 left-10 w-32 h-32 rounded-full pointer-events-none opacity-20" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.3) 0%,transparent 70%)', animation: 'orbFloat 15s ease-in-out infinite reverse' }} />
-        <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full pointer-events-none opacity-10" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.4) 0%,transparent 70%)', animation: 'orbFloat 20s ease-in-out infinite' }} />
+        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.12) 0%,transparent 70%)', animation: 'orbFloat 40s ease-in-out infinite' }} />
+        <div className="absolute top-10 left-10 w-32 h-32 rounded-full pointer-events-none opacity-20" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.3) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite reverse' }} />
+        <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full pointer-events-none opacity-10" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.4) 0%,transparent 70%)', animation: 'orbFloat 32s ease-in-out infinite' }} />
         <div className="relative z-10 max-w-2xl mx-auto">
           <ScrollReveal>
             <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 3.5s ease-in-out infinite' }} />
               <span className="text-[0.65rem] uppercase tracking-[3px] text-white/60" style={{ fontFamily: 'var(--font-heading)' }}>{t('faq_label')}</span>
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={0.1}>
+          <ScrollReveal delay={0.25}>
             <h1 className="text-white text-[clamp(2rem,5vw,3rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('faq_title')}</h1>
           </ScrollReveal>
-          <ScrollReveal delay={0.2}>
+          <ScrollReveal delay={0.5}>
             <p className="text-white/40 text-[0.9rem] max-w-md mx-auto leading-relaxed">{t('faq_desc')}</p>
           </ScrollReveal>
         </div>
@@ -104,7 +104,7 @@ export default function FaqPage() {
                   const key = faq.q;
                   const isOpen = openItems.has(key);
                   return (
-                    <ScrollReveal key={fi} delay={fi * 0.05}>
+                    <ScrollReveal key={fi} delay={fi * 0.1}>
                       <div className={`rounded-2xl border transition-all duration-300 ${isOpen ? 'border-orange/30 shadow-[0_4px_20px_rgba(212,105,42,0.08)] bg-orange/[0.02]' : 'border-border-light bg-light-bg hover:border-orange/20'}`}>
                         <button
                           onClick={() => toggle(key)}
@@ -139,10 +139,10 @@ export default function FaqPage() {
         <ScrollReveal>
           <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-bold text-text-primary mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('faq_cta_title')}</h2>
         </ScrollReveal>
-        <ScrollReveal delay={0.12}>
+        <ScrollReveal delay={0.3}>
           <p className="text-text-secondary text-[0.9rem] max-w-lg mx-auto mb-8 leading-relaxed">{t('faq_cta_desc')}</p>
         </ScrollReveal>
-        <ScrollReveal delay={0.24}>
+        <ScrollReveal delay={0.6}>
           <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3 bg-orange text-white rounded-lg font-semibold text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]" style={{ fontFamily: 'var(--font-heading)' }}>
             {t('faq_cta_btn')} →
           </Link>

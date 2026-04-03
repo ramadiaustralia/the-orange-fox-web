@@ -25,10 +25,10 @@ export default function ProcessPage() {
     <>
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-24 md:py-32 text-center overflow-hidden">
-        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.1) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite' }} />
+        <div className="absolute w-[600px] h-[600px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.1) 0%,transparent 70%)', animation: 'orbFloat 40s ease-in-out infinite' }} />
         <div className="relative z-10 max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 3.5s ease-in-out infinite' }} />
             <span className="text-[0.65rem] uppercase tracking-[3px] text-white/60" style={{ fontFamily: 'var(--font-heading)' }}>{t('process_label')}</span>
           </div>
           <h1 className="text-white text-[clamp(2rem,5vw,3rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('process_title')}</h1>
@@ -43,7 +43,7 @@ export default function ProcessPage() {
           <div className="absolute left-[4px] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
 
           {phases.map((phase, i) => (
-            <ScrollReveal key={i} delay={i * 0.1}>
+            <ScrollReveal key={i} delay={i * 0.2}>
               <div className="relative mb-6">
                 {/* Dot */}
                 <div className="absolute -left-8 top-7 w-2.5 h-2.5 rounded-full bg-orange border-2 border-light-bg -translate-x-px" />
@@ -81,10 +81,10 @@ export default function ProcessPage() {
         <ScrollReveal>
           <h2 className="text-[clamp(1.6rem,3vw,2.2rem)] font-bold text-text-primary mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('portfolio_cta')}</h2>
         </ScrollReveal>
-        <ScrollReveal delay={0.12}>
+        <ScrollReveal delay={0.3}>
           <p className="text-text-secondary text-[0.9rem] max-w-lg mx-auto mb-8">{t('portfolio_cta_desc')}</p>
         </ScrollReveal>
-        <ScrollReveal delay={0.24}>
+        <ScrollReveal delay={0.6}>
           <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3 bg-orange text-white rounded-lg font-semibold text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange-dark hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]" style={{ fontFamily: 'var(--font-heading)' }}>
             {t('portfolio_cta_btn')} →
           </Link>
