@@ -1,8 +1,238 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/lib/LanguageContext';
 
+/* ── Package metadata (keys match CMS + i18n) ──────────────────────── */
+interface PackageDef {
+  key: string;          // e.g. "pkg_premium_web"
+  priceKey: string;     // e.g. "pkg_premium_web_price"
+  categoryKey: string;  // e.g. "pricing_category_web"
+  fallbackPrice: string;
+  highlight?: boolean;
+}
+
+const PACKAGES: PackageDef[] = [
+  { key: 'pkg_premium_web',  priceKey: 'pkg_premium_web_price',  categoryKey: 'pricing_category_web',      fallbackPrice: '$1,250' },
+  { key: 'pkg_exclusive_web', priceKey: 'pkg_exclusive_web_price', categoryKey: 'pricing_category_web',     fallbackPrice: '$2,000' },
+  { key: 'pkg_premium_app',  priceKey: 'pkg_premium_app_price',  categoryKey: 'pricing_category_app',      fallbackPrice: '$1,750' },
+  { key: 'pkg_exclusive_app', priceKey: 'pkg_exclusive_app_price', categoryKey: 'pricing_category_app',     fallbackPrice: '$3,000' },
+  { key: 'pkg_ultimate',     priceKey: 'pkg_ultimate_price',     categoryKey: 'pricing_category_complete', fallbackPrice: '$4,000', highlight: true },
+];
+
+/* ── Category grouping order ──────────────────────────────────────── */
+const CATEGORY_ORDER = ['pricing_category_web', 'pricing_category_app', 'pricing_category_complete'];
+
+/* ── Custom Package Selector Component ────────────────────────────── */
+function PackageSelector({
+  value,
+  onChange,
+  t,
+}: {
+  value: string;
+  onChange: (val: string) => void;
+  t: (key: any) => string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    if (open) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [open]);
+
+  // Close on Escape
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    if (open) document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [open]);
+
+  // Resolve display values for selected
+  const selectedPkg = PACKAGES.find((p) => t(p.key as any) === value);
+
+  // Group packages by category
+  const grouped = CATEGORY_ORDER.map((catKey) => ({
+    catKey,
+    label: t(catKey as any),
+    packages: PACKAGES.filter((p) => p.categoryKey === catKey),
+  })).filter((g) => g.packages.length > 0);
+
+  function resolvePrice(pkg: PackageDef): string {
+    const raw = t(pkg.priceKey as any);
+    return raw !== pkg.priceKey ? raw : pkg.fallbackPrice;
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      {/* ── Trigger Button ─────────────────────────────────────── */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className={`
+          w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border text-sm text-left
+          outline-none transition-all duration-300
+          ${open
+            ? 'border-orange shadow-[0_0_0_3px_rgba(212,105,42,0.1)] bg-white'
+            : 'border-border bg-off-white hover:border-orange/40'}
+          ${!value ? 'text-text-muted' : 'text-text-primary'}
+        `}
+        style={{ fontFamily: 'var(--font-body)' }}
+      >
+        {selectedPkg ? (
+          <span className="flex items-center gap-2.5 min-w-0">
+            <span
+              className={`shrink-0 inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[0.55rem] font-bold uppercase tracking-[1.5px] ${
+                selectedPkg.highlight
+                  ? 'bg-orange text-white'
+                  : 'bg-orange/10 text-orange'
+              }`}
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              {t(selectedPkg.categoryKey as any)}
+            </span>
+            <span className="truncate font-medium">{t(selectedPkg.key as any)}</span>
+            <span className="shrink-0 text-orange font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
+              {resolvePrice(selectedPkg)}
+            </span>
+          </span>
+        ) : (
+          <span>{t('contact_package_placeholder')}</span>
+        )}
+
+        {/* Chevron */}
+        <svg
+          className={`w-4 h-4 shrink-0 text-text-muted transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {/* ── Dropdown Panel ─────────────────────────────────────── */}
+      <div
+        className={`
+          absolute z-50 left-0 right-0 mt-2 origin-top
+          bg-white rounded-2xl border border-border-light
+          shadow-[0_20px_60px_rgba(0,0,0,0.08),0_0_0_1px_rgba(212,105,42,0.04)]
+          overflow-hidden
+          transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+          ${open
+            ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 scale-[0.97] -translate-y-2 pointer-events-none'}
+        `}
+      >
+        {/* Inner scrollable area */}
+        <div className="max-h-[340px] overflow-y-auto p-2 space-y-1 custom-scroll">
+          {grouped.map((group) => (
+            <div key={group.catKey}>
+              {/* Category Header */}
+              <div className="px-3 pt-2.5 pb-1.5">
+                <span
+                  className="text-[0.55rem] uppercase tracking-[2px] text-text-muted/60 font-semibold"
+                  style={{ fontFamily: 'var(--font-heading)' }}
+                >
+                  {group.label}
+                </span>
+              </div>
+
+              {/* Package Options */}
+              {group.packages.map((pkg) => {
+                const isSelected = t(pkg.key as any) === value;
+                const price = resolvePrice(pkg);
+                const name = t(pkg.key as any);
+                const desc = t(`${pkg.key}_desc` as any);
+
+                return (
+                  <button
+                    key={pkg.key}
+                    type="button"
+                    onClick={() => { onChange(name); setOpen(false); }}
+                    className={`
+                      w-full text-left rounded-xl px-3.5 py-3 transition-all duration-200 group
+                      ${isSelected
+                        ? 'bg-orange/[0.07] border border-orange/20'
+                        : 'bg-transparent border border-transparent hover:bg-off-white hover:border-border-light'}
+                    `}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          {/* Package name */}
+                          <span
+                            className={`text-[0.82rem] font-semibold truncate ${
+                              isSelected ? 'text-orange' : 'text-text-primary group-hover:text-orange'
+                            } transition-colors duration-200`}
+                            style={{ fontFamily: 'var(--font-heading)' }}
+                          >
+                            {name}
+                          </span>
+                          {pkg.highlight && (
+                            <span
+                              className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-wider bg-orange text-white"
+                              style={{ fontFamily: 'var(--font-heading)' }}
+                            >
+                              Best
+                            </span>
+                          )}
+                        </div>
+                        {/* Short description */}
+                        <p className="text-[0.7rem] text-text-muted leading-snug truncate">
+                          {desc !== `${pkg.key}_desc` ? desc : ''}
+                        </p>
+                      </div>
+
+                      {/* Price */}
+                      <div className="shrink-0 text-right">
+                        <span
+                          className={`text-sm font-bold ${isSelected ? 'text-orange' : 'text-text-primary'}`}
+                          style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                          {price}
+                        </span>
+                        <span className="block text-[0.55rem] text-text-muted uppercase tracking-wider">USD</span>
+                      </div>
+
+                      {/* Check mark for selected */}
+                      {isSelected && (
+                        <svg className="w-4.5 h-4.5 text-orange shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+
+          {/* Clear selection option */}
+          {value && (
+            <button
+              type="button"
+              onClick={() => { onChange(''); setOpen(false); }}
+              className="w-full text-center text-[0.75rem] text-text-muted hover:text-orange py-2 mt-1 border-t border-border-light transition-colors duration-200"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              ✕ Clear selection
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   Contact Page
+   ══════════════════════════════════════════════════════════════════════ */
 export default function ContactPage() {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', package: '', message: '' });
@@ -72,22 +302,17 @@ export default function ContactPage() {
                   style={{ fontFamily: 'var(--font-body)' }}
                 />
               </div>
+
+              {/* ── Custom Package Selector (CMS-driven) ─────────── */}
               <div>
                 <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_package')}</label>
-                <select
+                <PackageSelector
                   value={formData.package}
-                  onChange={(e) => setFormData({ ...formData, package: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-off-white text-text-primary text-sm outline-none transition-all duration-300 focus:border-orange focus:shadow-[0_0_0_3px_rgba(212,105,42,0.1)] appearance-none"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
-                  <option value="">{t('contact_package_placeholder')}</option>
-                  <option value="Premium Web Package">Premium Web Package — $1,250</option>
-                  <option value="Exclusive Web Package">Exclusive Web Package — $2,000</option>
-                  <option value="Premium App Package">Premium App Package — $1,750</option>
-                  <option value="Exclusive App Package">Exclusive App Package — $3,000</option>
-                  <option value="Ultimate Complete Package">Ultimate Complete Package — $4,000</option>
-                </select>
+                  onChange={(val) => setFormData({ ...formData, package: val })}
+                  t={t}
+                />
               </div>
+
               <div>
                 <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_message')}</label>
                 <textarea
