@@ -77,18 +77,12 @@ export default function PricingPage() {
         <div className="absolute top-10 left-10 w-32 h-32 rounded-full pointer-events-none opacity-20" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.3) 0%,transparent 70%)', animation: 'orbFloat 25s ease-in-out infinite reverse' }} />
         <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full pointer-events-none opacity-10" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.4) 0%,transparent 70%)', animation: 'orbFloat 32s ease-in-out infinite' }} />
         <div className="relative z-10 max-w-2xl mx-auto">
-          <ScrollReveal>
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/15 mb-6 backdrop-blur-sm" style={{ animation: 'heroFadeIn 1.8s ease-out' }}>
               <span className="w-1.5 h-1.5 rounded-full bg-orange" style={{ animation: 'pulse 3.5s ease-in-out infinite' }} />
               <span className="text-[0.65rem] uppercase tracking-[3px] text-white/60" style={{ fontFamily: 'var(--font-heading)' }}>{t('pricing_label')}</span>
             </div>
-          </ScrollReveal>
-          <ScrollReveal delay={0.25}>
-            <h1 className="text-white text-[clamp(2rem,5vw,3rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>{t('pricing_title')}</h1>
-          </ScrollReveal>
-          <ScrollReveal delay={0.5}>
-            <p className="text-white/40 text-[0.9rem] max-w-md mx-auto leading-relaxed">{t('pricing_desc')}</p>
-          </ScrollReveal>
+          <h1 className="text-white text-[clamp(2rem,5vw,3rem)] font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)', animation: 'heroSlideUp 1.4s ease-out 0.4s both' }}>{t('pricing_title')}</h1>
+          <p className="text-white/40 text-[0.9rem] max-w-md mx-auto leading-relaxed" style={{ animation: 'heroSlideUp 1.4s ease-out 0.8s both' }}>{t('pricing_desc')}</p>
         </div>
       </section>
 
