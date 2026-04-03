@@ -166,25 +166,13 @@ export default function ShopPage() {
                         )}
                         <span className="block text-[0.6rem] text-text-muted uppercase tracking-wider mt-0.5">USD</span>
                       </div>
-                      {hasPaypal ? (
-                        <a
-                          href={paypalLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-dark text-white rounded-xl font-semibold text-[0.75rem] tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]"
-                          style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                          {t('shop_buy_now' as any)} →
-                        </a>
-                      ) : (
-                        <Link
-                          href="/contact"
+                      <Link
+                          href={hasPaypal ? `/checkout?module=${mod.index}` : '/contact'}
                           className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-dark text-white rounded-xl font-semibold text-[0.75rem] tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]"
                           style={{ fontFamily: 'var(--font-heading)' }}
                         >
                           {t('shop_buy_now' as any)} →
                         </Link>
-                      )}
                     </div>
                   </div>
                 </ScrollReveal>
