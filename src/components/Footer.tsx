@@ -22,6 +22,7 @@ export default function Footer() {
     ? footerMainCMS.map(m => ({ href: m.href, label: m.label }))
     : [
         { href: '/', label: t('nav_home') },
+        { href: '/shop', label: t('nav_shop' as any) },
         { href: '/about', label: t('nav_about') },
         { href: '/contact', label: t('nav_contact') },
       ];

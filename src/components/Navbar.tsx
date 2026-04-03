@@ -59,6 +59,7 @@ export default function Navbar() {
     ? headerItems.map(h => ({ href: h.href, label: h.label }))
     : [
         { href: '/', label: t('nav_home') },
+        { href: '/shop', label: t('nav_shop' as any) },
         { href: '/services', label: t('nav_what_we_deliver') },
         { href: '/process', label: t('nav_how_we_work') },
         { href: '/pricing', label: t('nav_pricing') },
@@ -94,6 +95,20 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+
+          {/* Shop */}
+          <li>
+            <Link
+              href="/shop"
+              className={`text-[0.75rem] font-medium tracking-[1.5px] uppercase no-underline transition-colors duration-300 relative
+                ${pathname === '/shop' ? 'text-orange' : 'text-text-primary hover:text-orange'}
+              `}
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              {t('nav_shop' as any)}
+              <span className={`absolute -bottom-1 left-0 h-[1.5px] bg-orange transition-all duration-300 ${pathname === '/shop' ? 'w-full' : 'w-0'}`} />
+            </Link>
+          </li>
 
           {/* Dropdown - Framework */}
           <li className="relative" ref={dropdownRef}>
@@ -193,6 +208,18 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+
+          {/* Shop */}
+          <Link
+            href="/shop"
+            onClick={() => setMobileOpen(false)}
+            className={`block py-3 text-sm font-medium tracking-wider uppercase no-underline
+              ${pathname === '/shop' ? 'text-orange' : 'text-text-primary'}
+            `}
+            style={{ fontFamily: 'var(--font-heading)' }}
+          >
+            {t('nav_shop' as any)}
+          </Link>
 
           {/* Framework Dropdown */}
           <div>

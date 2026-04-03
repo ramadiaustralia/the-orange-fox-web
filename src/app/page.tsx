@@ -101,11 +101,11 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
               <span className="relative">{t('hero_cta')} →</span>
             </Link>
             <Link
-              href="/services"
+              href="/shop"
               className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 text-white/70 rounded-lg font-medium text-sm tracking-wider uppercase no-underline transition-all duration-300 hover:border-orange/50 hover:text-orange backdrop-blur-sm"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              {t('nav_services')}
+              {t('nav_shop' as any)}
             </Link>
           </div>
 
