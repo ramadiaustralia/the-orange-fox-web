@@ -1,7 +1,9 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/lib/LanguageContext';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 /* ── Module definitions (6 modules) ─────────────────────────── */
 interface ModuleDef {
@@ -77,8 +79,196 @@ const MODULES: ModuleDef[] = [
   },
 ];
 
+/* ── Checkout Modal ─────────────────────────────────────────── */
+function CheckoutModal({ moduleIndex, onClose }: { moduleIndex: number; onClose: () => void }) {
+  const { t } = useLanguage();
+  const [buyerName, setBuyerName] = useState('');
+  const [buyerEmail, setBuyerEmail] = useState('');
+  const [formValid, setFormValid] = useState(false);
+  const [orderComplete, setOrderComplete] = useState(false);
+  const [orderNumber, setOrderNumber] = useState('');
+  const [error, setError] = useState('');
+  const [processing, setProcessing] = useState(false);
+
+  const productName = t(`shop_module_${moduleIndex}_name` as any);
+  const priceStr = t(`shop_module_${moduleIndex}_price` as any);
+  const priceNum = priceStr ? parseFloat(priceStr.replace(/[^0-9.]/g, '')) : 0;
+  const unit = t(`shop_module_${moduleIndex}_unit` as any);
+  const hasUnit = unit && !unit.startsWith('shop_module_');
+
+  useEffect(() => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setFormValid(buyerName.trim().length >= 2 && emailRegex.test(buyerEmail));
+  }, [buyerName, buyerEmail]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  if (orderComplete) {
+    return (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
+        <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl text-center" onClick={(e) => e.stopPropagation()}>
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'var(--font-heading)' }}>Payment Successful! 🎉</h2>
+          <p className="text-sm text-orange font-mono mb-3">{orderNumber}</p>
+          <p className="text-gray-600 text-sm leading-relaxed mb-6">
+            Thank you, <strong>{buyerName}</strong>! A detailed invoice has been sent to <strong>{buyerEmail}</strong>. We&apos;ll be in touch within 24 hours.
+          </p>
+          <button
+            onClick={onClose}
+            className="px-6 py-3 bg-dark text-white rounded-xl font-semibold text-sm hover:bg-orange transition-colors border-none cursor-pointer"
+            style={{ fontFamily: 'var(--font-heading)' }}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal p-6 rounded-t-2xl">
+          <button onClick={onClose} className="absolute top-4 right-4 text-white/60 hover:text-white text-xl bg-transparent border-none cursor-pointer">✕</button>
+          <span className="text-[0.6rem] uppercase tracking-[2px] text-white/50 font-semibold block" style={{ fontFamily: 'var(--font-heading)' }}>Module {moduleIndex}</span>
+          <h3 className="text-white text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-heading)' }}>{productName}</h3>
+          <div className="mt-2">
+            <span className="text-2xl font-bold text-orange" style={{ fontFamily: 'var(--font-heading)' }}>{priceStr}</span>
+            {hasUnit && <span className="text-white/40 text-sm ml-2">{unit}</span>}
+            <span className="text-white/30 text-xs ml-1">USD</span>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="p-6">
+          <h4 className="text-sm font-semibold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-heading)' }}>Your Information</h4>
+          <div className="space-y-3 mb-5">
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1.5 block">Full Name *</label>
+              <input
+                type="text"
+                value={buyerName}
+                onChange={(e) => setBuyerName(e.target.value)}
+                placeholder="John Doe"
+                className="w-full px-4 py-3 border border-border-light rounded-xl text-sm text-text-primary focus:outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 transition-all"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-gray-500 font-medium mb-1.5 block">Email Address *</label>
+              <input
+                type="email"
+                value={buyerEmail}
+                onChange={(e) => setBuyerEmail(e.target.value)}
+                placeholder="john@example.com"
+                className="w-full px-4 py-3 border border-border-light rounded-xl text-sm text-text-primary focus:outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="h-px bg-border-light mb-5" />
+
+          {/* PayPal */}
+          {!formValid ? (
+            <div className="bg-gray-50 rounded-xl p-5 text-center">
+              <p className="text-gray-400 text-sm">Please fill in your name and email to continue with payment.</p>
+            </div>
+          ) : (
+            <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!, currency: 'USD' }}>
+              <div className="text-center mb-3">
+                <p className="text-xs text-gray-400">Secure payment via PayPal</p>
+              </div>
+              {processing && (
+                <div className="bg-orange/5 rounded-xl p-4 text-center mb-3">
+                  <p className="text-orange text-sm animate-pulse">Processing payment...</p>
+                </div>
+              )}
+              {error && (
+                <div className="bg-red-50 rounded-xl p-4 text-center mb-3">
+                  <p className="text-red-500 text-sm">{error}</p>
+                </div>
+              )}
+              <PayPalButtons
+                style={{ layout: 'vertical', shape: 'rect', label: 'pay' }}
+                createOrder={async () => {
+                  setError('');
+                  const res = await fetch('/api/paypal/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      productName,
+                      price: priceNum,
+                      currency: 'USD',
+                      buyerName,
+                      buyerEmail,
+                    }),
+                  });
+                  const data = await res.json();
+                  if (!res.ok) throw new Error(data.error);
+                  return data.id;
+                }}
+                onApprove={async (data) => {
+                  setProcessing(true);
+                  setError('');
+                  try {
+                    const res = await fetch('/api/paypal/capture-order', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        orderID: data.orderID,
+                        buyerName,
+                        buyerEmail,
+                        productName,
+                        price: priceNum,
+                        currency: 'USD',
+                      }),
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                      setOrderNumber(result.orderNumber);
+                      setOrderComplete(true);
+                    } else {
+                      setError(result.error || 'Payment processing failed');
+                    }
+                  } catch {
+                    setError('Something went wrong. Please contact us.');
+                  } finally {
+                    setProcessing(false);
+                  }
+                }}
+                onError={() => {
+                  setError('PayPal encountered an error. Please try again.');
+                }}
+              />
+            </PayPalScriptProvider>
+          )}
+
+          <div className="mt-4 text-center">
+            <p className="text-[0.65rem] text-gray-300 flex items-center justify-center gap-1">
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+              Encrypted &amp; Secure
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main Shop Page ─────────────────────────────────────────── */
 export default function ShopPage() {
   const { t } = useLanguage();
+  const [checkoutModule, setCheckoutModule] = useState<number | null>(null);
 
   return (
     <>
@@ -166,13 +356,13 @@ export default function ShopPage() {
                         )}
                         <span className="block text-[0.6rem] text-text-muted uppercase tracking-wider mt-0.5">USD</span>
                       </div>
-                      <Link
-                          href={hasPaypal ? `/checkout?module=${mod.index}` : '/contact'}
-                          className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-dark text-white rounded-xl font-semibold text-[0.75rem] tracking-wider uppercase no-underline transition-all duration-300 hover:bg-orange hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)]"
-                          style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                          {t('shop_buy_now' as any)} →
-                        </Link>
+                      <button
+                        onClick={() => hasPaypal ? setCheckoutModule(mod.index) : (window.location.href = '/contact')}
+                        className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-dark text-white rounded-xl font-semibold text-[0.75rem] tracking-wider uppercase transition-all duration-300 hover:bg-orange hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(212,105,42,0.3)] cursor-pointer border-none"
+                        style={{ fontFamily: 'var(--font-heading)' }}
+                      >
+                        {t('shop_buy_now' as any)} →
+                      </button>
                     </div>
                   </div>
                 </ScrollReveal>
@@ -223,6 +413,11 @@ export default function ShopPage() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* Checkout Modal */}
+      {checkoutModule !== null && (
+        <CheckoutModal moduleIndex={checkoutModule} onClose={() => setCheckoutModule(null)} />
+      )}
     </>
   );
 }

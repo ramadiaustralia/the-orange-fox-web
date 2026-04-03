@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 const PAYPAL_API = 'https://api-m.paypal.com';
 const CLIENT_ID = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!;
-const SECRET = process.env.PAYPAL_SECRET!;
+const SECRET = process.env.PAYPAL_CLIENT_SECRET!;
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,7 +14,7 @@ const supabase = createClient(
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.GMAIL_ADDRESS,
+    user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
   },
 });
@@ -41,6 +41,7 @@ function generateOrderNumber() {
   return `TOF-${y}${m}${d}-${rand}`;
 }
 
+/* ── Beautiful Invoice Email (HTML) ─────────────────────────── */
 function buildInvoiceEmail(order: {
   orderNumber: string;
   buyerName: string;
@@ -50,87 +51,154 @@ function buildInvoiceEmail(order: {
   paypalOrderId: string;
   date: string;
 }) {
+  const year = new Date().getFullYear();
+  const firstName = order.buyerName.split(' ')[0];
+
   return `<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f8f6f3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
-<div style="max-width:600px;margin:0 auto;padding:40px 20px">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice ${order.orderNumber}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f4;font-family:'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;max-width:600px;width:100%;">
 
-  <!-- Header -->
-  <div style="text-align:center;margin-bottom:32px">
-    <div style="display:inline-block;background:#1a1a1a;border-radius:16px;padding:20px 40px">
-      <span style="font-size:28px;font-weight:800;color:#d4692a;letter-spacing:-0.5px">The Orange Fox</span>
-      <span style="display:block;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:3px;text-transform:uppercase;margin-top:4px">INVOICE</span>
-    </div>
-  </div>
+          <!-- ═══ HEADER ═══ -->
+          <tr>
+            <td style="background-color:#1a1a1a;padding:36px 40px;text-align:center;">
+              <img src="https://the-orange-fox-web.vercel.app/images/logo-fox.png" alt="🦊" width="56" height="56" style="display:block;margin:0 auto 14px;border-radius:12px;" />
+              <h1 style="color:#ffffff;font-size:22px;font-weight:700;margin:0;letter-spacing:2px;">THE ORANGE FOX</h1>
+              <p style="color:#888888;font-size:12px;margin:6px 0 0;letter-spacing:1px;">Web · App · Digital System</p>
+            </td>
+          </tr>
 
-  <!-- Card -->
-  <div style="background:#ffffff;border-radius:20px;padding:40px;box-shadow:0 2px 40px rgba(0,0,0,0.06)">
+          <!-- ═══ THANK YOU ═══ -->
+          <tr>
+            <td style="padding:36px 40px 24px;">
+              <h2 style="color:#1a1a1a;font-size:24px;font-weight:700;margin:0 0 10px;">Thank You, ${firstName}! 🦊</h2>
+              <p style="color:#666666;font-size:14px;line-height:1.7;margin:0;">
+                We're truly grateful you chose <strong style="color:#D4692A;">The Orange Fox</strong>. Your payment has been confirmed and we're excited to bring your vision to life!
+              </p>
+            </td>
+          </tr>
 
-    <!-- Greeting -->
-    <p style="font-size:16px;color:#1a1a1a;margin:0 0 4px">Hi <strong>${order.buyerName}</strong>,</p>
-    <p style="font-size:14px;color:#666;margin:0 0 28px;line-height:1.6">Thank you for your purchase! Here are your order details:</p>
+          <!-- ═══ INVOICE BADGE ═══ -->
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#faf7f5;border:1px solid #f0ebe6;border-radius:12px;">
+                <tr>
+                  <td style="padding:20px 24px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td>
+                          <p style="color:#999;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin:0 0 4px;">Invoice Number</p>
+                          <p style="color:#1a1a1a;font-size:16px;font-weight:700;margin:0;font-family:'Courier New',monospace;">${order.orderNumber}</p>
+                        </td>
+                        <td style="text-align:right;">
+                          <p style="color:#999;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin:0 0 4px;">Status</p>
+                          <span style="display:inline-block;background-color:#dcfce7;color:#16a34a;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;">✅ PAID</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" style="padding-top:12px;">
+                          <p style="color:#999;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin:0 0 4px;">Date</p>
+                          <p style="color:#555;font-size:13px;margin:0;">${order.date}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    <!-- Order Info Box -->
-    <div style="background:#faf7f4;border-radius:14px;padding:24px;margin-bottom:28px">
-      <table style="width:100%;border-collapse:collapse">
-        <tr>
-          <td style="padding:6px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Order Number</td>
-          <td style="padding:6px 0;font-size:14px;color:#1a1a1a;text-align:right;font-weight:600">${order.orderNumber}</td>
-        </tr>
-        <tr>
-          <td style="padding:6px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Date</td>
-          <td style="padding:6px 0;font-size:14px;color:#1a1a1a;text-align:right">${order.date}</td>
-        </tr>
-        <tr>
-          <td style="padding:6px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">PayPal Ref</td>
-          <td style="padding:6px 0;font-size:13px;color:#666;text-align:right;font-family:monospace">${order.paypalOrderId}</td>
-        </tr>
-      </table>
-    </div>
+          <!-- ═══ ORDER SUMMARY ═══ -->
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <p style="color:#999;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;font-weight:600;">Order Summary</p>
+              <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #eee;">
+                <tr>
+                  <td style="padding:14px 0;color:#333;font-size:14px;border-bottom:1px solid #eee;">${order.productName}</td>
+                  <td style="padding:14px 0;color:#333;font-size:14px;text-align:right;border-bottom:1px solid #eee;">${order.price} ${order.currency}</td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;color:#1a1a1a;font-size:16px;font-weight:700;">Total Paid</td>
+                  <td style="padding:14px 0;color:#D4692A;font-size:18px;font-weight:700;text-align:right;">${order.price} ${order.currency}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    <!-- Line Items -->
-    <div style="border-top:2px solid #f0ede8;padding-top:20px;margin-bottom:20px">
-      <table style="width:100%;border-collapse:collapse">
-        <tr>
-          <td style="padding:12px 0;font-size:15px;color:#1a1a1a;font-weight:500">${order.productName}</td>
-          <td style="padding:12px 0;font-size:15px;color:#1a1a1a;text-align:right;font-weight:600">${order.price} <span style="font-size:12px;color:#999">${order.currency}</span></td>
-        </tr>
-      </table>
-    </div>
+          <!-- ═══ PAYMENT DETAILS ═══ -->
+          <tr>
+            <td style="padding:0 40px 28px;">
+              <p style="color:#999;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;font-weight:600;">Payment Details</p>
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f9;border-radius:10px;">
+                <tr>
+                  <td style="padding:12px 16px;color:#888;font-size:12px;border-bottom:1px solid #eee;">Method</td>
+                  <td style="padding:12px 16px;color:#333;font-size:13px;text-align:right;border-bottom:1px solid #eee;font-weight:600;">PayPal</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 16px;color:#888;font-size:12px;">Transaction ID</td>
+                  <td style="padding:12px 16px;color:#333;font-size:11px;text-align:right;font-family:'Courier New',monospace;">${order.paypalOrderId}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    <!-- Total -->
-    <div style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);border-radius:14px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center">
-      <table style="width:100%;border-collapse:collapse">
-        <tr>
-          <td style="font-size:14px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px">Total Paid</td>
-          <td style="text-align:right;font-size:24px;font-weight:800;color:#d4692a">${order.price} <span style="font-size:14px;color:rgba(255,255,255,0.5)">${order.currency}</span></td>
-        </tr>
-      </table>
-    </div>
+          <!-- ═══ WHAT'S NEXT ═══ -->
+          <tr>
+            <td style="padding:0 40px 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#fff8f3;border-left:4px solid #D4692A;border-radius:0 10px 10px 0;">
+                <tr>
+                  <td style="padding:20px 24px;">
+                    <p style="color:#D4692A;font-size:14px;font-weight:700;margin:0 0 6px;">🚀 What's Next?</p>
+                    <p style="color:#666;font-size:13px;line-height:1.6;margin:0;">
+                      Our team will reach out to you within <strong>24 hours</strong> to discuss your project requirements, timeline, and kick things off. We build everything from scratch — no templates, no shortcuts!
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    <!-- Divider -->
-    <div style="border-top:1px solid #f0ede8;margin:28px 0"></div>
+          <!-- ═══ INSTAGRAM CTA ═══ -->
+          <tr>
+            <td style="padding:0 40px 32px;text-align:center;">
+              <p style="color:#999;font-size:12px;margin:0 0 14px;">Stay connected with us!</p>
+              <a href="https://instagram.com/theorgfox" target="_blank" style="display:inline-block;background-color:#E4405F;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:10px;font-size:14px;font-weight:700;letter-spacing:0.5px;">
+                📸 Follow @theorgfox on Instagram
+              </a>
+            </td>
+          </tr>
 
-    <!-- Footer Message -->
-    <p style="font-size:13px;color:#999;line-height:1.7;margin:0;text-align:center">
-      We'll be in touch shortly to get started on your project.<br>
-      If you have any questions, reply to this email or reach us at<br>
-      <a href="mailto:theorgfox@gmail.com" style="color:#d4692a;text-decoration:none;font-weight:500">theorgfox@gmail.com</a>
-    </p>
-  </div>
+          <!-- ═══ FOOTER ═══ -->
+          <tr>
+            <td style="background-color:#1a1a1a;padding:28px 40px;text-align:center;">
+              <p style="color:#D4692A;font-size:11px;margin:0 0 6px;letter-spacing:1px;font-weight:600;">BUILT SMART. BUILT SHARP. BUILT TO LAST.</p>
+              <p style="color:#888;font-size:12px;margin:0 0 4px;">
+                📧 <a href="mailto:theorgfox@gmail.com" style="color:#D4692A;text-decoration:none;">theorgfox@gmail.com</a>
+                &nbsp;&nbsp;·&nbsp;&nbsp;
+                🌐 <a href="https://the-orange-fox-web.vercel.app" style="color:#D4692A;text-decoration:none;">the-orange-fox-web.vercel.app</a>
+              </p>
+              <p style="color:#555;font-size:11px;margin:12px 0 0;">© ${year} The Orange Fox — Melbourne, Australia 🦊</p>
+              <p style="color:#444;font-size:10px;margin:8px 0 0;">This is an automated invoice. Please save this email for your records.</p>
+            </td>
+          </tr>
 
-  <!-- Bottom Footer -->
-  <div style="text-align:center;margin-top:32px">
-    <p style="font-size:11px;color:#bbb;margin:0">© ${new Date().getFullYear()} The Orange Fox — Web Development Studio</p>
-    <p style="font-size:11px;color:#ccc;margin:4px 0 0">Melbourne, Australia 🦊</p>
-  </div>
-
-</div>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>`;
 }
 
+/* ── Notification Email (HTML) ──────────────────────────────── */
 function buildNotificationEmail(order: {
   orderNumber: string;
   buyerName: string;
@@ -142,36 +210,87 @@ function buildNotificationEmail(order: {
   date: string;
 }) {
   return `<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#f8f6f3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
-<div style="max-width:600px;margin:0 auto;padding:40px 20px">
-  <div style="background:#ffffff;border-radius:20px;padding:40px;box-shadow:0 2px 40px rgba(0,0,0,0.06)">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Order ${order.orderNumber}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f4;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;max-width:600px;width:100%;">
 
-    <div style="text-align:center;margin-bottom:24px">
-      <span style="display:inline-block;background:#d4692a;color:white;font-size:13px;font-weight:700;padding:8px 20px;border-radius:100px;text-transform:uppercase;letter-spacing:2px">🎉 New Order!</span>
-    </div>
+          <!-- ═══ HEADER ═══ -->
+          <tr>
+            <td style="background-color:#D4692A;padding:30px 40px;text-align:center;">
+              <h1 style="color:#ffffff;font-size:24px;font-weight:700;margin:0;">🎉 New Order Received!</h1>
+              <p style="color:#fff8f3;font-size:14px;margin:8px 0 0;font-family:'Courier New',monospace;font-weight:600;">${order.orderNumber}</p>
+            </td>
+          </tr>
 
-    <h2 style="font-size:20px;color:#1a1a1a;text-align:center;margin:0 0 24px">Order ${order.orderNumber}</h2>
+          <!-- ═══ ORDER DETAILS ═══ -->
+          <tr>
+            <td style="padding:32px 40px;">
+              <p style="color:#999;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin:0 0 16px;font-weight:600;">Order Details</p>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:10px 0;color:#888;font-size:13px;border-bottom:1px solid #f0f0f0;width:120px;">Customer</td>
+                  <td style="padding:10px 0;color:#1a1a1a;font-size:14px;font-weight:600;border-bottom:1px solid #f0f0f0;">${order.buyerName}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;color:#888;font-size:13px;border-bottom:1px solid #f0f0f0;">Email</td>
+                  <td style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
+                    <a href="mailto:${order.buyerEmail}" style="color:#D4692A;text-decoration:none;font-size:14px;">${order.buyerEmail}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;color:#888;font-size:13px;border-bottom:1px solid #f0f0f0;">Product</td>
+                  <td style="padding:10px 0;color:#333;font-size:14px;border-bottom:1px solid #f0f0f0;">${order.productName}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;color:#888;font-size:13px;border-bottom:1px solid #f0f0f0;">Amount</td>
+                  <td style="padding:10px 0;color:#1a1a1a;font-size:18px;font-weight:700;border-bottom:1px solid #f0f0f0;">${order.price} <span style="font-size:12px;color:#888;font-weight:400;">${order.currency}</span></td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;color:#888;font-size:13px;border-bottom:1px solid #f0f0f0;">PayPal Ref</td>
+                  <td style="padding:10px 0;color:#555;font-size:12px;font-family:'Courier New',monospace;border-bottom:1px solid #f0f0f0;">${order.paypalOrderId}</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 0;color:#888;font-size:13px;">Date</td>
+                  <td style="padding:10px 0;color:#555;font-size:13px;">${order.date}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    <div style="background:#faf7f4;border-radius:14px;padding:24px;margin-bottom:20px">
-      <table style="width:100%;border-collapse:collapse">
-        <tr><td style="padding:8px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Customer</td><td style="padding:8px 0;font-size:14px;color:#1a1a1a;text-align:right;font-weight:600">${order.buyerName}</td></tr>
-        <tr><td style="padding:8px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Email</td><td style="padding:8px 0;font-size:14px;text-align:right"><a href="mailto:${order.buyerEmail}" style="color:#d4692a;text-decoration:none">${order.buyerEmail}</a></td></tr>
-        <tr><td style="padding:8px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Product</td><td style="padding:8px 0;font-size:14px;color:#1a1a1a;text-align:right">${order.productName}</td></tr>
-        <tr><td style="padding:8px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Amount</td><td style="padding:8px 0;font-size:18px;color:#d4692a;text-align:right;font-weight:800">${order.price} ${order.currency}</td></tr>
-        <tr><td style="padding:8px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">PayPal Ref</td><td style="padding:8px 0;font-size:13px;color:#666;text-align:right;font-family:monospace">${order.paypalOrderId}</td></tr>
-        <tr><td style="padding:8px 0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:1px">Date</td><td style="padding:8px 0;font-size:14px;color:#1a1a1a;text-align:right">${order.date}</td></tr>
-      </table>
-    </div>
+          <!-- ═══ CTA ═══ -->
+          <tr>
+            <td style="padding:0 40px 32px;text-align:center;">
+              <a href="https://the-orange-fox-api.vercel.app/dashboard/orders" target="_blank" style="display:inline-block;background-color:#1a1a1a;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:10px;font-size:14px;font-weight:600;letter-spacing:0.5px;">
+                View in Dashboard →
+              </a>
+            </td>
+          </tr>
 
-    <p style="font-size:13px;color:#999;text-align:center;margin:0">Payment verified via PayPal ✅</p>
-  </div>
-</div>
+          <!-- ═══ FOOTER ═══ -->
+          <tr>
+            <td style="background-color:#f9f9f9;padding:20px 40px;text-align:center;border-top:1px solid #eee;">
+              <p style="color:#16a34a;font-size:13px;font-weight:600;margin:0 0 4px;">Payment verified via PayPal ✅</p>
+              <p style="color:#999;font-size:11px;margin:0;">The Orange Fox 🦊 — Automated Notification</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>`;
 }
 
+/* ── API Route ──────────────────────────────────────────────── */
 export async function POST(req: NextRequest) {
   try {
     const { orderID, buyerName, buyerEmail, productName, price, currency } = await req.json();
@@ -233,12 +352,12 @@ export async function POST(req: NextRequest) {
       date: dateStr,
     };
 
-    // 3. Send invoice email to buyer
+    // 3. Send invoice email to buyer (from theorgfox@gmail.com)
     try {
       await transporter.sendMail({
         from: '"The Orange Fox 🦊" <theorgfox@gmail.com>',
         to: buyerEmail,
-        subject: `Invoice ${orderNumber} — The Orange Fox`,
+        subject: `🧾 Invoice ${orderNumber} — The Orange Fox`,
         html: buildInvoiceEmail(orderInfo),
       });
     } catch (emailErr) {
