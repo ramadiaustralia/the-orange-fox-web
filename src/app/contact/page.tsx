@@ -76,7 +76,7 @@ function PackageSelector({
         type="button"
         onClick={() => setOpen(!open)}
         className={`
-          w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border text-sm text-left
+          w-full flex items-center justify-between gap-2 sm:gap-3 px-3 sm:px-4 py-3 rounded-xl border text-sm text-left
           outline-none transition-all duration-300
           ${open
             ? 'border-orange shadow-[0_0_0_3px_rgba(212,105,42,0.1)] bg-white'
@@ -86,7 +86,7 @@ function PackageSelector({
         style={{ fontFamily: 'var(--font-body)' }}
       >
         {selectedPkg ? (
-          <span className="flex items-center gap-2.5 min-w-0">
+          <span className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2.5 min-w-0">
             <span
               className={`shrink-0 inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[0.55rem] font-bold uppercase tracking-[1.5px] ${
                 selectedPkg.highlight
@@ -97,8 +97,8 @@ function PackageSelector({
             >
               {t(selectedPkg.categoryKey as any)}
             </span>
-            <span className="truncate font-medium">{t(selectedPkg.key as any)}</span>
-            <span className="shrink-0 text-orange font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
+            <span className="truncate font-medium text-[0.8rem] sm:text-sm">{t(selectedPkg.key as any)}</span>
+            <span className="shrink-0 text-orange font-semibold text-[0.8rem] sm:text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
               {resolvePrice(selectedPkg)}
             </span>
           </span>
@@ -128,8 +128,8 @@ function PackageSelector({
             : 'opacity-0 scale-[0.97] -translate-y-2 pointer-events-none'}
         `}
       >
-        {/* Inner scrollable area */}
-        <div className="max-h-[340px] overflow-y-auto p-2 space-y-1 custom-scroll">
+        {/* Inner scrollable area — viewport-aware on mobile */}
+        <div className="max-h-[45vh] sm:max-h-[340px] overflow-y-auto p-2 space-y-1 custom-scroll">
           {grouped.map((group) => (
             <div key={group.catKey}>
               {/* Category Header */}
