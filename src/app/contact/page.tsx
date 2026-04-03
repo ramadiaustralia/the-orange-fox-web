@@ -23,6 +23,107 @@ const PACKAGES: PackageDef[] = [
 /* ── Category grouping order ──────────────────────────────────────── */
 const CATEGORY_ORDER = ['pricing_category_web', 'pricing_category_app', 'pricing_category_complete'];
 
+/* ── Shared package list renderer ─────────────────────────────────── */
+function PackageList({
+  grouped,
+  value,
+  resolvePrice,
+  t,
+  onSelect,
+}: {
+  grouped: { catKey: string; label: string; packages: PackageDef[] }[];
+  value: string;
+  resolvePrice: (pkg: PackageDef) => string;
+  t: (key: any) => string;
+  onSelect: (name: string) => void;
+}) {
+  return (
+    <>
+      {grouped.map((group) => (
+        <div key={group.catKey}>
+          <div className="px-3 pt-2.5 pb-1.5">
+            <span
+              className="text-[0.55rem] uppercase tracking-[2px] text-text-muted/60 font-semibold"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              {group.label}
+            </span>
+          </div>
+          {group.packages.map((pkg) => {
+            const isSelected = t(pkg.key as any) === value;
+            const price = resolvePrice(pkg);
+            const name = t(pkg.key as any);
+            const desc = t(`${pkg.key}_desc` as any);
+            return (
+              <button
+                key={pkg.key}
+                type="button"
+                onClick={() => onSelect(name)}
+                className={`
+                  w-full text-left rounded-xl px-3.5 py-3 transition-all duration-200 group
+                  ${isSelected
+                    ? 'bg-orange/[0.07] border border-orange/20'
+                    : 'bg-transparent border border-transparent hover:bg-off-white hover:border-border-light'}
+                `}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span
+                        className={`text-[0.82rem] font-semibold truncate ${
+                          isSelected ? 'text-orange' : 'text-text-primary group-hover:text-orange'
+                        } transition-colors duration-200`}
+                        style={{ fontFamily: 'var(--font-heading)' }}
+                      >
+                        {name}
+                      </span>
+                      {pkg.highlight && (
+                        <span
+                          className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-wider bg-orange text-white"
+                          style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                          Best
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[0.7rem] text-text-muted leading-snug truncate">
+                      {desc !== `${pkg.key}_desc` ? desc : ''}
+                    </p>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <span
+                      className={`text-sm font-bold ${isSelected ? 'text-orange' : 'text-text-primary'}`}
+                      style={{ fontFamily: 'var(--font-heading)' }}
+                    >
+                      {price}
+                    </span>
+                    <span className="block text-[0.55rem] text-text-muted uppercase tracking-wider">USD</span>
+                  </div>
+                  {isSelected && (
+                    <svg className="w-4.5 h-4.5 text-orange shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      ))}
+      {value && (
+        <button
+          type="button"
+          onClick={() => onSelect('')}
+          className="w-full text-center text-[0.75rem] text-text-muted hover:text-orange py-2 mt-1 border-t border-border-light transition-colors duration-200"
+          style={{ fontFamily: 'var(--font-body)' }}
+        >
+          ✕ Clear selection
+        </button>
+      )}
+    </>
+  );
+}
+
 /* ── Custom Package Selector Component ────────────────────────────── */
 function PackageSelector({
   value,
@@ -36,7 +137,18 @@ function PackageSelector({
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Close on outside click
+  // Lock body scroll when bottom-sheet is open on mobile
+  useEffect(() => {
+    if (open) {
+      const isMobile = window.innerWidth < 640;
+      if (isMobile) {
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = ''; };
+      }
+    }
+  }, [open]);
+
+  // Close on outside click (desktop dropdown only)
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -54,10 +166,8 @@ function PackageSelector({
     return () => document.removeEventListener('keydown', handleKey);
   }, [open]);
 
-  // Resolve display values for selected
   const selectedPkg = PACKAGES.find((p) => t(p.key as any) === value);
 
-  // Group packages by category
   const grouped = CATEGORY_ORDER.map((catKey) => ({
     catKey,
     label: t(catKey as any),
@@ -67,6 +177,11 @@ function PackageSelector({
   function resolvePrice(pkg: PackageDef): string {
     const raw = t(pkg.priceKey as any);
     return raw !== pkg.priceKey ? raw : pkg.fallbackPrice;
+  }
+
+  function handleSelect(name: string) {
+    onChange(name);
+    setOpen(false);
   }
 
   return (
@@ -105,8 +220,6 @@ function PackageSelector({
         ) : (
           <span>{t('contact_package_placeholder')}</span>
         )}
-
-        {/* Chevron */}
         <svg
           className={`w-4 h-4 shrink-0 text-text-muted transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
           fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
@@ -115,9 +228,10 @@ function PackageSelector({
         </svg>
       </button>
 
-      {/* ── Dropdown Panel ─────────────────────────────────────── */}
+      {/* ── Desktop Dropdown (hidden on mobile) ────────────────── */}
       <div
         className={`
+          hidden sm:block
           absolute z-50 left-0 right-0 mt-2 origin-top
           bg-white rounded-2xl border border-border-light
           shadow-[0_20px_60px_rgba(0,0,0,0.08),0_0_0_1px_rgba(212,105,42,0.04)]
@@ -128,103 +242,46 @@ function PackageSelector({
             : 'opacity-0 scale-[0.97] -translate-y-2 pointer-events-none'}
         `}
       >
-        {/* Inner scrollable area — viewport-aware on mobile */}
-        <div className="max-h-[45vh] sm:max-h-[340px] overflow-y-auto p-2 space-y-1 custom-scroll">
-          {grouped.map((group) => (
-            <div key={group.catKey}>
-              {/* Category Header */}
-              <div className="px-3 pt-2.5 pb-1.5">
-                <span
-                  className="text-[0.55rem] uppercase tracking-[2px] text-text-muted/60 font-semibold"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  {group.label}
-                </span>
-              </div>
-
-              {/* Package Options */}
-              {group.packages.map((pkg) => {
-                const isSelected = t(pkg.key as any) === value;
-                const price = resolvePrice(pkg);
-                const name = t(pkg.key as any);
-                const desc = t(`${pkg.key}_desc` as any);
-
-                return (
-                  <button
-                    key={pkg.key}
-                    type="button"
-                    onClick={() => { onChange(name); setOpen(false); }}
-                    className={`
-                      w-full text-left rounded-xl px-3.5 py-3 transition-all duration-200 group
-                      ${isSelected
-                        ? 'bg-orange/[0.07] border border-orange/20'
-                        : 'bg-transparent border border-transparent hover:bg-off-white hover:border-border-light'}
-                    `}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          {/* Package name */}
-                          <span
-                            className={`text-[0.82rem] font-semibold truncate ${
-                              isSelected ? 'text-orange' : 'text-text-primary group-hover:text-orange'
-                            } transition-colors duration-200`}
-                            style={{ fontFamily: 'var(--font-heading)' }}
-                          >
-                            {name}
-                          </span>
-                          {pkg.highlight && (
-                            <span
-                              className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[0.5rem] font-bold uppercase tracking-wider bg-orange text-white"
-                              style={{ fontFamily: 'var(--font-heading)' }}
-                            >
-                              Best
-                            </span>
-                          )}
-                        </div>
-                        {/* Short description */}
-                        <p className="text-[0.7rem] text-text-muted leading-snug truncate">
-                          {desc !== `${pkg.key}_desc` ? desc : ''}
-                        </p>
-                      </div>
-
-                      {/* Price */}
-                      <div className="shrink-0 text-right">
-                        <span
-                          className={`text-sm font-bold ${isSelected ? 'text-orange' : 'text-text-primary'}`}
-                          style={{ fontFamily: 'var(--font-heading)' }}
-                        >
-                          {price}
-                        </span>
-                        <span className="block text-[0.55rem] text-text-muted uppercase tracking-wider">USD</span>
-                      </div>
-
-                      {/* Check mark for selected */}
-                      {isSelected && (
-                        <svg className="w-4.5 h-4.5 text-orange shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-
-          {/* Clear selection option */}
-          {value && (
-            <button
-              type="button"
-              onClick={() => { onChange(''); setOpen(false); }}
-              className="w-full text-center text-[0.75rem] text-text-muted hover:text-orange py-2 mt-1 border-t border-border-light transition-colors duration-200"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
-              ✕ Clear selection
-            </button>
-          )}
+        <div className="max-h-[340px] overflow-y-auto p-2 space-y-1 custom-scroll">
+          <PackageList grouped={grouped} value={value} resolvePrice={resolvePrice} t={t} onSelect={handleSelect} />
         </div>
       </div>
+
+      {/* ── Mobile Bottom Sheet (hidden on desktop) ────────────── */}
+      {open && (
+        <div className="sm:hidden fixed inset-0 z-[100]">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-[fadeIn_0.2s_ease-out]"
+            onClick={() => setOpen(false)}
+          />
+          {/* Sheet */}
+          <div
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.12)] animate-[slideUp_0.3s_ease-out]"
+            style={{ maxHeight: '70vh' }}
+          >
+            {/* Drag handle */}
+            <div className="flex justify-center pt-3 pb-1">
+              <div className="w-10 h-1 rounded-full bg-border" />
+            </div>
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 pb-3 border-b border-border-light">
+              <span className="text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
+                {t('contact_package')}
+              </span>
+              <button type="button" onClick={() => setOpen(false)} className="w-7 h-7 rounded-full bg-off-white flex items-center justify-center text-text-muted hover:text-orange transition-colors">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            {/* Scrollable list */}
+            <div className="overflow-y-auto p-2 space-y-1" style={{ maxHeight: 'calc(70vh - 80px)' }}>
+              <PackageList grouped={grouped} value={value} resolvePrice={resolvePrice} t={t} onSelect={handleSelect} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

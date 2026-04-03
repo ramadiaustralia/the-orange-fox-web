@@ -132,3 +132,13 @@ body::before {
   0%, 100% { transform: translateY(0); opacity: 0.4; }
   50% { transform: translateY(6px); opacity: 1; }
 }
+
+/* Bottom sheet animations (mobile package selector) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
