@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
 import { useLanguage } from '@/lib/LanguageContext';
 
@@ -110,6 +111,19 @@ function PackageList({
           })}
         </div>
       ))}
+      {/* View Pricing Detail */}
+      <div className="border-t border-border-light mt-1 pt-1">
+        <Link
+          href="/pricing"
+          className="w-full flex items-center justify-center gap-1.5 text-[0.75rem] text-orange hover:text-orange-dark py-2 transition-colors duration-200 no-underline font-semibold"
+          style={{ fontFamily: 'var(--font-heading)' }}
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          View Pricing Detail
+        </Link>
+      </div>
       {value && (
         <button
           type="button"
