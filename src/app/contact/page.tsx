@@ -364,7 +364,7 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_name')}</label>
+                  <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-secondary font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_name')}</label>
                   <input
                     type="text"
                     required
@@ -375,7 +375,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_email')}</label>
+                  <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-secondary font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_email')}</label>
                   <input
                     type="email"
                     required
@@ -387,7 +387,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_subject')}</label>
+                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-secondary font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_subject')}</label>
                 <input
                   type="text"
                   required
@@ -400,7 +400,7 @@ export default function ContactPage() {
 
               {/* ── Custom Package Selector (CMS-driven) ─────────── */}
               <div>
-                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_package')}</label>
+                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-secondary font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_package')}</label>
                 <PackageSelector
                   value={formData.package}
                   onChange={(val) => setFormData({ ...formData, package: val })}
@@ -409,7 +409,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_message')}</label>
+                <label className="block text-[0.7rem] uppercase tracking-[2px] text-text-secondary font-semibold mb-2" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_message')}</label>
                 <textarea
                   required
                   rows={4}
@@ -439,7 +439,7 @@ export default function ContactPage() {
           {/* Contact Info — Inline Row */}
           <ScrollReveal delay={0.35}>
             <div className="mt-10 pt-8 border-t border-border-light">
-              <p className="text-[0.7rem] uppercase tracking-[2px] text-text-muted font-semibold mb-4 text-center" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_or_reach')}</p>
+              <p className="text-[0.7rem] uppercase tracking-[2px] text-text-secondary font-semibold mb-4 text-center" style={{ fontFamily: 'var(--font-heading)' }}>{t('contact_or_reach')}</p>
               <div className="flex items-center justify-center gap-6 sm:gap-8 flex-wrap">
                 {/* Email */}
                 <a href={`mailto:${getSetting('social_email', 'theorgfox@gmail.com')}`} className="inline-flex items-center gap-2.5 text-sm text-text-primary no-underline hover:text-orange transition-colors group">
