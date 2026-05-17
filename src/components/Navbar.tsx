@@ -73,7 +73,7 @@ export default function Navbar() {
       <div className="max-w-[1200px] mx-auto px-6 md:px-8 h-[60px] flex items-center justify-between">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2 no-underline">
-          <Image src="/images/logo-fox.png" alt="The Orange Fox" width={32} height={32} className="h-8 w-auto" />
+          <Image src="/images/logo-fox.png" alt="The Orange Fox" width={48} height={48} className="h-12 w-auto" />
           <span className="font-heading font-bold text-[0.7rem] tracking-[2px] text-orange" style={{ fontFamily: 'var(--font-heading)' }}>
             THE ORANGE FOX
           </span>

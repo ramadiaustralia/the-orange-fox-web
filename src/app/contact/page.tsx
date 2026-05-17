@@ -232,14 +232,14 @@ function PackageSelector({
       <div
         className={`
           hidden sm:block
-          absolute z-50 left-0 right-0 mt-2 origin-top
+          absolute z-50 left-0 right-0 bottom-full mb-2 origin-bottom
           bg-white rounded-2xl border border-border-light
           shadow-[0_20px_60px_rgba(0,0,0,0.08),0_0_0_1px_rgba(212,105,42,0.04)]
           overflow-hidden
           transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
           ${open
             ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 scale-[0.97] -translate-y-2 pointer-events-none'}
+            : 'opacity-0 scale-[0.97] translate-y-2 pointer-events-none'}
         `}
       >
         <div className="max-h-[340px] overflow-y-auto p-2 space-y-1 custom-scroll">

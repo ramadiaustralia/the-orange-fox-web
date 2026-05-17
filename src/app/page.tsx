@@ -25,7 +25,7 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-20 md:py-24 text-center overflow-hidden">
+      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-12 md:py-16 text-center overflow-hidden">
         {/* === Decorative Background Elements === */}
         {/* Main animated orb */}
         <div className="absolute w-[500px] h-[500px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.12) 0%,transparent 70%)', animation: 'orbFloat 40s ease-in-out infinite' }} />
@@ -71,7 +71,7 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
             alt="The Orange Fox"
             width={392}
             height={392}
-            className="mx-auto mb-3 w-full max-w-[220px] md:max-w-[260px] h-auto"
+            className="mx-auto mb-3 w-full max-w-[180px] md:max-w-[220px] h-auto"
             style={{ animation: 'heroFloat 7s ease-in-out infinite' }}
             priority
           />
@@ -110,7 +110,7 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
           </div>
 
           {/* Scroll Indicator with enhanced animation */}
-          <div className="mt-10 flex flex-col items-center gap-2 text-white/20" style={{ animation: 'heroSlideUp 1.4s ease-out 1.6s both' }}>
+          <div className="mt-6 flex flex-col items-center gap-2 text-white/20" style={{ animation: 'heroSlideUp 1.4s ease-out 1.6s both' }}>
             <div className="w-px h-6 bg-gradient-to-b from-white/20 to-transparent" style={{ animation: 'heroScrollBounce 3.5s ease-in-out infinite' }} />
             <span className="text-[0.6rem] uppercase tracking-[3px]" style={{ fontFamily: 'var(--font-heading)' }}>Scroll</span>
           </div>
