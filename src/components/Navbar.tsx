@@ -72,8 +72,8 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-[1000] bg-white border-b border-gray-100 transition-shadow duration-300 ${scrolled ? 'shadow-[0_1px_12px_rgba(0,0,0,0.06)]' : ''}`}>
       <div className="max-w-[1200px] mx-auto px-6 md:px-8 h-[60px] flex items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 no-underline">
-          <Image src="/images/logo-fox.png" alt="The Orange Fox" width={48} height={48} className="h-12 w-auto" />
+        <Link href="/" className="flex items-center gap-2 no-underline -ml-1">
+          <Image src="/images/logo-fox.png" alt="The Orange Fox" width={36} height={36} className="h-9 w-auto" />
           <span className="font-heading font-bold text-[0.825rem] tracking-[2px] text-orange" style={{ fontFamily: 'var(--font-heading)' }}>
             THE ORANGE FOX
           </span>

@@ -43,7 +43,7 @@ function PackageList({
         <div key={group.catKey}>
           <div className="px-3 pt-2.5 pb-1.5">
             <span
-              className="text-[0.55rem] uppercase tracking-[2px] text-text-muted/60 font-semibold"
+              className="text-[0.55rem] uppercase tracking-[2px] text-orange font-semibold"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               {group.label}
