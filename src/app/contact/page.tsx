@@ -93,7 +93,7 @@ function PackageList({
                   </div>
                   <div className="shrink-0 text-right">
                     <span
-                      className={`text-sm font-bold ${isSelected ? 'text-orange' : 'text-text-primary'}`}
+                      className="text-sm font-bold text-orange"
                       style={{ fontFamily: 'var(--font-heading)' }}
                     >
                       {price}
@@ -121,7 +121,7 @@ function PackageList({
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          View Pricing Detail
+          {t('shop_cta_pricing_detail')}
         </Link>
       </div>
       {value && (

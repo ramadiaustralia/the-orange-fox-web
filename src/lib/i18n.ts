@@ -289,6 +289,7 @@ export const translations = {
     shop_cta_title: 'Need the Full Package?',
     shop_cta_desc: 'For complete project-scope solutions with dedicated architecture, premium dashboard, and end-to-end support — explore our full project packages.',
     shop_cta_pricing: 'View Pricing',
+    shop_cta_pricing_detail: 'View Pricing Detail',
     shop_cta_contact: 'Contact Us',
     shop_buy_now: 'Get This Module',
   },
@@ -573,6 +574,7 @@ export const translations = {
     shop_cta_title: 'Butuh Paket Lengkap?',
     shop_cta_desc: 'Untuk solusi skala proyek lengkap dengan arsitektur khusus, dashboard premium, dan dukungan end-to-end — jelajahi paket proyek lengkap kami.',
     shop_cta_pricing: 'Lihat Harga',
+    shop_cta_pricing_detail: 'Lihat Detail Harga',
     shop_cta_contact: 'Hubungi Kami',
     shop_buy_now: 'Dapatkan Modul Ini',
   }
