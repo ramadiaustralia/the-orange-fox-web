@@ -25,7 +25,7 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-24 md:py-32 text-center overflow-hidden">
+      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 pt-16 pb-14 md:pt-20 md:pb-16 text-center overflow-hidden">
         {/* === Decorative Background Elements === */}
         {/* Main animated orb */}
         <div className="absolute w-[500px] h-[500px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.12) 0%,transparent 70%)', animation: 'orbFloat 40s ease-in-out infinite' }} />
