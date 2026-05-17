@@ -25,7 +25,7 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-12 md:py-16 text-center overflow-hidden">
+      <section className="relative bg-gradient-to-br from-dark via-dark-soft to-charcoal px-6 py-24 md:py-32 text-center overflow-hidden">
         {/* === Decorative Background Elements === */}
         {/* Main animated orb */}
         <div className="absolute w-[500px] h-[500px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(212,105,42,0.12) 0%,transparent 70%)', animation: 'orbFloat 40s ease-in-out infinite' }} />
@@ -71,7 +71,7 @@ const iconMap: Record<string, React.ComponentType<{className?: string}>> = {
             alt="The Orange Fox"
             width={392}
             height={392}
-            className="mx-auto mb-3 w-full max-w-[180px] md:max-w-[220px] h-auto"
+            className="mx-auto mb-3 w-24 h-auto"
             style={{ animation: 'heroFloat 7s ease-in-out infinite' }}
             priority
           />
